@@ -5,6 +5,7 @@
 	    "engines": {
         "node": "20.x"
 	},
+
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
@@ -12,6 +13,7 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
 	},
+	
 	"devDependencies": {
 		"@sveltejs/adapter-vercel": "^6.3.1",
 		"@sveltejs/kit": "^2.0.0",
