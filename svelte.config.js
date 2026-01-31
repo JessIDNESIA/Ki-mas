@@ -8,7 +8,14 @@ const config = {
   kit: {
     adapter: adapter({
       runtime: 'nodejs20.x'
-    })
+    }),
+    prerender: {
+      // Ignore 404 for favicon during prerender (add favicon.png to static/ when ready)
+      handleHttpError: ({ path, message }) => {
+        if (path === '/favicon.png') return;
+        throw new Error(message);
+      }
+    }
   }
 };
 
