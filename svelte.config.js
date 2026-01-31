@@ -4,14 +4,12 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-    preprocess: vitePreprocess(),
-    kit: {
-        // Ubah bagian adapter menjadi seperti ini:
-        adapter: adapter({
-            runtime: 'nodejs20.x' // <--- TAMBAHKAN BARRIS INI
-        })
-    }
+  preprocess: vitePreprocess(),
+  kit: {
+    adapter: adapter({
+      runtime: 'nodejs20.x'
+    })
+  }
 };
 
 export default config;
-
