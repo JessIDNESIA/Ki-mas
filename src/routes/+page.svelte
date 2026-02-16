@@ -7,10 +7,10 @@
 </script>
 
 <svelte:head>
-	<title>Ki-Mas - Kacang Sacha Inchi Sehat & Lezat | Indo Merina Superfood</title>
+	<title>Ki-Mas - Kacang Sacha Inchi Sehat & Lezat | Indo Marina Superfood</title>
 	<meta name="description" content="Ki-Mas Sacha Inchi - Camilan sehat kaya Omega 3, 6, 9 dari hutan Amazon Peru. Superfood untuk kesehatan jantung, otak, dan keluarga Indonesia. Tersedia 3 varian: Panggang, Telor, dan Disco." />
 	<meta name="keywords" content="Ki-Mas, Sacha Inchi, kacang sehat, omega 3, superfood, camilan sehat, Indo Merina Superfood, PIRT, Halal" />
-	<meta name="author" content="Indo Merina Superfood" />
+	<meta name="author" content="Indo Marina Superfood" />
 	
 	<!-- Open Graph / Facebook -->
 	<meta property="og:type" content="website" />
