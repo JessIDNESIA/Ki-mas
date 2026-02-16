@@ -40,6 +40,22 @@ function getContext(key) {
 function ensure_array_like(array_like_or_iterator) {
   return array_like_or_iterator?.length !== void 0 ? array_like_or_iterator : Array.from(array_like_or_iterator);
 }
+const ATTR_REGEX = /[&"<]/g;
+const CONTENT_REGEX = /[&<]/g;
+function escape(value, is_attr = false) {
+  const str = String(value);
+  const pattern = is_attr ? ATTR_REGEX : CONTENT_REGEX;
+  pattern.lastIndex = 0;
+  let escaped = "";
+  let last = 0;
+  while (pattern.test(str)) {
+    const i = pattern.lastIndex - 1;
+    const ch = str[i];
+    escaped += str.substring(last, i) + (ch === "&" ? "&amp;" : ch === '"' ? "&quot;" : "&lt;");
+    last = i + 1;
+  }
+  return escaped + str.substring(last);
+}
 function each(items, fn) {
   items = ensure_array_like(items);
   let str = "";
@@ -97,11 +113,18 @@ function create_ssr_component(fn) {
     $$render
   };
 }
+function add_attribute(name, value, boolean) {
+  if (value == null || boolean) return "";
+  const assignment = `="${escape(value, true)}"`;
+  return ` ${name}${assignment}`;
+}
 export {
   setContext as a,
   subscribe as b,
   create_ssr_component as c,
-  each as e,
+  each as d,
+  escape as e,
+  add_attribute as f,
   getContext as g,
   missing_component as m,
   noop as n,

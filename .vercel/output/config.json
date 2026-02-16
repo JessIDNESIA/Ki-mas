@@ -11,6 +11,10 @@
 			"handle": "filesystem"
 		},
 		{
+			"src": "^/sitemap\\.xml/?(?:/__data.json)?$",
+			"dest": "/sitemap.xml"
+		},
+		{
 			"src": "/.*",
 			"dest": "/![-]/catchall"
 		}

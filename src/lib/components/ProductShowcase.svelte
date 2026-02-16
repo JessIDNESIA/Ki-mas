@@ -25,21 +25,24 @@
 			tagline: 'Original & Crispy',
 			color: 'from-amber-600 to-amber-800',
 			pirt: '2113507013848-30',
-			features: ['Tanpa penggorengan', 'Renyah alami', 'Rendah kalori']
+			features: ['Tanpa penggorengan', 'Renyah alami', 'Rendah kalori'],
+			image: '/images/kacang-panggang.jpeg'
 		},
 		{
 			name: 'Kacang Telor Sacha Inchi',
 			tagline: "Let's Sehat",
 			color: 'from-blue-600 to-blue-800',
 			pirt: '2113507023848-30',
-			features: ['Gurih telur asin', 'Protein tinggi', 'Favorit keluarga']
+			features: ['Gurih telur asin', 'Protein tinggi', 'Favorit keluarga'],
+			image: '/images/kacang-telor.jpeg'
 		},
 		{
 			name: 'Kacang Disco Sacha Inchi',
 			tagline: 'Colorful & Fun',
 			color: 'from-purple-600 to-pink-600',
 			pirt: '2113507033848-30',
-			features: ['Warna-warni ceria', 'Rasa manis gurih', 'Disukai anak-anak']
+			features: ['Warna-warni ceria', 'Rasa manis gurih', 'Disukai anak-anak'],
+			image: '/images/kacang-disco.jpeg'
 		}
 	];
 
@@ -83,16 +86,41 @@
 					on:click={() => selectedProduct = i}
 					class="group bg-white rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 border-4 text-left {selectedProduct === i ? 'border-yellow-400 scale-105' : 'border-white/30'}"
 				>
-					<!-- Product Image Placeholder -->
-					<div class="bg-gradient-to-br {product.color} rounded-2xl p-8 mb-4 aspect-square flex flex-col items-center justify-center group-hover:scale-105 transition-transform duration-300">
-						<div class="text-white text-center">
-							<p class="text-2xl font-black mb-2">Ki-Mas</p>
-							<p class="text-lg font-semibold mb-1">{product.name}</p>
-							<p class="text-sm italic opacity-90">{product.tagline}</p>
-						</div>
-						<div class="mt-4 w-32 h-32 bg-white/20 rounded-full flex items-center justify-center">
-							<span class="text-6xl">🥜</span>
-						</div>
+					<!-- Product Image Container - dengan SPACE di sekitar -->
+					<div class="relative mb-4 rounded-2xl overflow-hidden bg-white">
+						{#if product.image}
+							<!-- Container dengan padding untuk breathing space -->
+							<div class="image-container">
+								<!-- 🖼️ GAMBAR PRODUK - MAKSIMAL tanpa terhalang -->
+								<img 
+									src={product.image} 
+									alt={product.name}
+									class="product-image"
+									loading="lazy"
+									decoding="async"
+									fetchpriority="high"
+								/>
+							</div>
+							
+							<!-- Label DILUAR gambar - di bawah dengan gradient accent -->
+							<div class="absolute bottom-0 left-0 right-0 bg-gradient-to-r {product.color} p-3 rounded-b-2xl">
+								<p class="text-center text-white text-sm md:text-base font-black tracking-wide drop-shadow">
+									{product.tagline}
+								</p>
+							</div>
+						{:else}
+							<!-- Fallback jika gambar belum ada -->
+							<div class="w-full aspect-square flex flex-col items-center justify-center p-8 bg-gradient-to-br {product.color}">
+								<div class="text-white text-center">
+									<p class="text-2xl font-black mb-2">Ki-Mas</p>
+									<p class="text-lg font-semibold mb-1">{product.name}</p>
+									<p class="text-sm italic opacity-90">{product.tagline}</p>
+								</div>
+								<div class="mt-4 w-32 h-32 bg-white/20 rounded-full flex items-center justify-center">
+									<span class="text-6xl">🥜</span>
+								</div>
+							</div>
+						{/if}
 					</div>
 
 					<!-- Product Name -->
@@ -174,6 +202,63 @@
 </section>
 
 <style>
+	/* Container gambar dengan padding untuk breathing space */
+	.image-container {
+		position: relative;
+		width: 100%;
+		aspect-ratio: 1 / 1; /* Square container */
+		padding: 1rem; /* Space di sekitar gambar */
+		background: white;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	/* Gambar produk - MAKSIMAL tanpa terhalang */
+	.product-image {
+		width: 100%;
+		height: 100%;
+		
+		/* Object-fit: contain untuk show full image dengan space */
+		object-fit: contain;
+		object-position: center center;
+		
+		/* Image rendering untuk kualitas maksimal */
+		image-rendering: -webkit-optimize-contrast;
+		image-rendering: crisp-edges;
+		
+		/* Transition smooth */
+		transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+		
+		/* GPU acceleration */
+		backface-visibility: hidden;
+		-webkit-backface-visibility: hidden;
+		transform: translateZ(0);
+		will-change: transform;
+	}
+
+	/* Hover effect - zoom in smooth */
+	.group:hover .product-image {
+		transform: scale(1.1) translateZ(0);
+	}
+
+	/* Fade in saat gambar load */
+	.product-image {
+		animation: fadeInImage 0.6s ease-in;
+	}
+
+	@keyframes fadeInImage {
+		from {
+			opacity: 0;
+			transform: scale(0.95) translateZ(0);
+		}
+		to {
+			opacity: 1;
+			transform: scale(1) translateZ(0);
+		}
+	}
+
+	/* Slide up animation */
 	.slide-up {
 		animation: slideUp 0.8s ease-out;
 	}
@@ -191,5 +276,44 @@
 
 	.delay-100 {
 		animation-delay: 0.1s;
+	}
+
+	/* Responsive adjustments */
+	@media (max-width: 640px) {
+		.image-container {
+			padding: 0.75rem; /* Padding lebih kecil di mobile */
+		}
+		
+		.group:hover .product-image {
+			transform: scale(1.08) translateZ(0); /* Zoom lebih subtle di mobile */
+		}
+	}
+
+	@media (min-width: 768px) {
+		.image-container {
+			padding: 1.25rem; /* Padding lebih besar di tablet */
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.image-container {
+			padding: 1.5rem; /* Padding paling besar di desktop */
+		}
+	}
+
+	/* High DPI screens optimization */
+	@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+		.product-image {
+			image-rendering: -webkit-optimize-contrast;
+		}
+	}
+
+	/* Print optimization */
+	@media print {
+		.product-image {
+			image-rendering: auto;
+			-webkit-print-color-adjust: exact;
+			print-color-adjust: exact;
+		}
 	}
 </style>
