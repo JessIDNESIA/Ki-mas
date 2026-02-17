@@ -1,6 +1,7 @@
 <script>
 	import Hero from '$lib/components/Hero.svelte';
 	import ProductDescription from '$lib/components/ProductDescription.svelte';
+	import GalleryTimeline from '$lib/components/GalleryTimeline.svelte';
 	import Benefits from '$lib/components/Benefits.svelte';
 	import ProductShowcase from '$lib/components/ProductShowcase.svelte';
 	import Footer from '$lib/components/Footer.svelte';
@@ -26,6 +27,7 @@
 <div class="min-h-screen bg-white">
 	<Hero />
 	<ProductDescription />
+	<GalleryTimeline />
 	<Benefits />
 	<ProductShowcase />
 	<Footer />
