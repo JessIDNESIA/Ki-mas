@@ -35,7 +35,8 @@
   ];
 
   let current = 0;
-  let timer;
+  /** @type {ReturnType<typeof setInterval> | null} */
+  let timer = null;
   let visible = false;
   let paused = false;
   const INTERVAL = 7000;
@@ -43,20 +44,27 @@
   function next() { current = (current + 1) % slides.length; }
   function prev() { current = (current - 1 + slides.length) % slides.length; }
 
+  /** @param {number} i */
   function goTo(i) { current = i; resetTimer(); }
 
   function resetTimer() {
-    clearInterval(timer);
+    if (timer) clearInterval(timer);
     if (!paused) startTimer();
   }
 
   function startTimer() {
+    if (timer) clearInterval(timer);
     timer = setInterval(() => { current = (current + 1) % slides.length; }, INTERVAL);
   }
 
   function togglePause() {
     paused = !paused;
-    paused ? clearInterval(timer) : startTimer();
+    if (paused) {
+      if (timer) clearInterval(timer);
+      timer = null;
+    } else {
+      startTimer();
+    }
   }
 
   onMount(() => {
@@ -70,7 +78,10 @@
     return () => observer.disconnect();
   });
 
-  onDestroy(() => clearInterval(timer));
+  onDestroy(() => {
+    if (timer) clearInterval(timer);
+    timer = null;
+  });
 
   $: slide = slides[current];
 </script>
@@ -261,8 +272,7 @@
         {#each slides as s, i}
           <button
             on:click={() => goTo(i)}
-            class="flex-1 relative overflow-hidden transition-all duration-300 group focus:outline-none"
-            style="height: 52px; /* smaller on mobile */"
+            class="flex-1 h-[52px] sm:h-[64px] relative overflow-hidden transition-all duration-300 group focus:outline-none"
           >
             <img
               src={s.image}
@@ -306,13 +316,6 @@
   @media (min-width: 768px) {
     /* side-by-side — stretch to fill the row naturally */
     .img-panel { min-height: 420px; }
-  }
-
-  /* Thumbnail strip taller on larger screens */
-  @media (min-width: 640px) {
-    .flex button[style*="height: 52px"] {
-      /* Can't easily override inline style from Svelte, so we use the class below */
-    }
   }
 
   /* ── Animations ── */
