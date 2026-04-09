@@ -20,9 +20,27 @@ export default {
 				'sacha-green': '#84cc16',
 				'sacha-teal': '#14b8a6',
 				'sacha-yellow': '#fde047',
+				saccha: {
+					background: '#f0f9ed',
+					primary: '#176a21',
+					secondary: '#266829',
+					tertiary: '#39653f',
+					'on-surface': '#283129',
+					'on-surface-variant': '#555e55',
+					'primary-container': '#9df197',
+					'on-primary-container': '#005c15',
+					'secondary-container': '#acf4a4',
+					'on-secondary-container': '#1b5e20',
+					'tertiary-container': '#cbfecc',
+					'on-tertiary-container': '#38643e',
+					'surface-container': '#e0ebde',
+					'surface-container-low': '#e9f4e7',
+					'surface-container-lowest': '#ffffff',
+				}
 			},
 			fontFamily: {
 				sans: ['Manrope', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+				headline: ['Epilogue', 'sans-serif'],
 				fredoka: ['Fredoka', 'sans-serif'],
 			},
 			backgroundImage: {

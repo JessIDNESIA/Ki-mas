@@ -55,7 +55,7 @@
 			<div class="flex flex-wrap gap-4 pt-4">
 				<a
 					class="inline-flex items-center justify-center px-8 py-4 bg-brand-primary text-brand-dark font-bold rounded-xl shadow-lg shadow-brand-primary/30 hover:scale-105 transition-transform duration-300"
-					href="#produk"
+					href="#products"
 				>
 					Pesan Sekarang
 					<svg
@@ -74,7 +74,7 @@
 				</a>
 				<a
 					class="inline-flex items-center justify-center px-8 py-4 bg-white border-2 border-slate-100 text-brand-dark font-bold rounded-xl hover:bg-slate-50 transition-colors duration-300 shadow-sm"
-					href="#menu"
+					href="#products"
 				>
 					Lihat Menu
 				</a>
