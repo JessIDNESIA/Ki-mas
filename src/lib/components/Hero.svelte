@@ -31,13 +31,13 @@
 					<img
 						src="/images/ki-mas-logo.png"
 						alt="Ki-Mas"
-						class="w-[200px] md:w-[300px] h-auto drop-shadow-xl"
+						class="w-[200px] md:w-[300px] h-auto logo-shadow floating-logo"
 					/>
 				</div>
 				<h2
 					class="text-3xl md:text-5xl font-extrabold text-brand-dark leading-tight uppercase tracking-tight"
 				>
-					Sudah Saatnya Ganti Camilan Dengan Makan Sehat Kacang Sancha
+					Sudah Saatnya Ganti Camilan Dengan Makan Sehat Kacang Sacha
 					Inchi
 				</h2>
 			</div>
@@ -130,6 +130,25 @@
 	.floating-element-delay {
 		animation: float 8s ease-in-out infinite;
 		animation-delay: 1s;
+	}
+
+	@keyframes bob {
+		0%,
+		100% {
+			transform: translateY(0);
+		}
+		50% {
+			transform: translateY(-15px);
+		}
+	}
+
+	.floating-logo {
+		animation: bob 4s ease-in-out infinite;
+		will-change: transform;
+	}
+
+	.logo-shadow {
+		filter: drop-shadow(0 5px 15px rgba(26, 58, 20, 0.15));
 	}
 
 	.fade-in {

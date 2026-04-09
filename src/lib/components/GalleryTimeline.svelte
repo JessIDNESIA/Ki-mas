@@ -1,36 +1,37 @@
 <script>
-  import { onMount, onDestroy } from 'svelte';
+  import { onMount, onDestroy } from "svelte";
+  import { ArrowLeft, ArrowRight, Pause, Play } from "lucide-svelte";
 
   const slides = [
     {
-      image: '/images/pohon-muda.jpg',
-      label: '01 — POHON Kacang Sacha Inchi',
-      title: 'Tanaman Merambat Muda',
-      subtitle: 'Plukenetia volubilis',
-      desc: 'Sacha Inchi tumbuh sebagai tanaman merambat yang kuat. Pada fase muda, buah berwarna hijau cerah berbentuk bintang melekat di setiap ruas batang. Tanaman ini dapat mencapai ketinggian hingga 2 meter dan mulai berbuah dalam 3–6 bulan setelah tanam.',
-      tag: 'Fase Pertumbuhan',
-      color: '#4ade80',
-      portrait: true,
+      image: "/images/pohon-muda.jpg",
+      label: "01 — POHON Kacang Sacha Inchi",
+      title: "Tanaman Merambat Muda",
+      subtitle: "Plukenetia volubilis",
+      desc: "Sacha Inchi tumbuh sebagai tanaman merambat yang kuat. Pada fase muda, buah berwarna hijau cerah berbentuk bintang melekat di setiap ruas batang. Tanaman ini dapat mencapai ketinggian hingga 2 meter dan mulai berbuah dalam 3–6 bulan setelah tanam.",
+      tag: "01-Fase Pertumbuhan",
+      color: "#2E7D32",
+      activeLabel: "Tahap 01",
     },
     {
-      image: '/images/buah-tua.jpg',
-      label: '02 — BUAH Kacang Sacha Inchi',
-      title: 'Buah Yang Sudah Tua',
-      subtitle: 'Siap dipanen',
-      desc: 'Ketika buah mencapai kematangan, kulit luar mengering dan pecah membentuk mahkota bintang yang khas. Di dalamnya tersimpan biji-biji Sacha Inchi yang kaya omega-3, omega-6, dan protein tinggi siap dipanen oleh para petani.',
-      tag: 'Fase Pematangan',
-      color: '#fb923c',
-      portrait: false,
+      image: "/images/buah-tua.jpg",
+      label: "02 — BUAH Kacang Sacha Inchi",
+      title: "Buah Yang Sudah Tua",
+      subtitle: "Siap dipanen",
+      desc: "Ketika buah mencapai kematangan, kulit luar mengering dan pecah membentuk mahkota bintang yang khas. Di dalamnya tersimpan biji-biji Sacha Inchi yang kaya omega-3, omega-6, dan protein tinggi siap dipanen oleh para petani.",
+      tag: "02-Fase Pemanenan",
+      color: "#2E7D32",
+      activeLabel: "Tahap 02",
     },
     {
-      image: '/images/hasil-panen.png',
-      label: '03 — HASIL PANEN',
-      title: 'Buah Kacang Siap Diolah',
-      subtitle: 'Superfood dari alam',
-      desc: 'Hasil panen berupa biji-biji bintang Sacha Inchi yang telah kering. Biji ini mengandung hingga 27% protein, 45% lemak sehat (Omega 3, 6, 9), dan antioksidan tinggi — menjadikannya salah satu superfood yang bergizi di dunia.',
-      tag: 'Hasil Panen',
-      color: '#facc15',
-      portrait: false,
+      image: "/images/hasil-panen.png",
+      label: "03 — HASIL PANEN",
+      title: "Buah Kacang Siap Diolah",
+      subtitle: "Superfood dari alam",
+      desc: "Hasil panen berupa biji-biji bintang Sacha Inchi yang telah kering. Biji ini mengandung hingga 27% protein, 45% lemak sehat (Omega 3, 6, 9), dan antioksidan tinggi — menjadikannya salah satu superfood yang bergizi di dunia.",
+      tag: "03-Fase Pengolahan",
+      color: "#2E7D32",
+      activeLabel: "Tahap 03",
     },
   ];
 
@@ -41,39 +42,50 @@
   let paused = false;
   const INTERVAL = 7000;
 
-  function next() { current = (current + 1) % slides.length; }
-  function prev() { current = (current - 1 + slides.length) % slides.length; }
+  let progress = 0;
+  const STEP = 10; // update frequency in ms
+
+  function next() {
+    current = (current + 1) % slides.length;
+    progress = 0;
+  }
+  function prev() {
+    current = (current - 1 + slides.length) % slides.length;
+    progress = 0;
+  }
 
   /** @param {number} i */
-  function goTo(i) { current = i; resetTimer(); }
-
-  function resetTimer() {
-    if (timer) clearInterval(timer);
-    if (!paused) startTimer();
+  function goTo(i) {
+    current = i;
+    progress = 0;
   }
 
   function startTimer() {
     if (timer) clearInterval(timer);
-    timer = setInterval(() => { current = (current + 1) % slides.length; }, INTERVAL);
+    timer = setInterval(() => {
+      if (!paused) {
+        progress += (STEP / INTERVAL) * 100;
+        if (progress >= 100) {
+          next();
+        }
+      }
+    }, STEP);
   }
 
   function togglePause() {
     paused = !paused;
-    if (paused) {
-      if (timer) clearInterval(timer);
-      timer = null;
-    } else {
-      startTimer();
-    }
   }
 
   onMount(() => {
     startTimer();
     const observer = new IntersectionObserver(
-      (entries) => entries.forEach(e => { if (e.isIntersecting) visible = true; }),
-      { threshold: 0.1 }
+      (entries) =>
+        entries.forEach((e) => {
+          if (e.isIntersecting) visible = true;
+        }),
+      { threshold: 0.1 },
     );
-    const el = document.querySelector('#gallery-section');
+    const el = document.querySelector("#gallery-section");
     if (el) observer.observe(el);
     return () => observer.disconnect();
   });
@@ -88,259 +100,278 @@
 
 <section
   id="gallery-section"
-  class="relative py-10 sm:py-16 md:py-24 px-3 sm:px-4 overflow-hidden"
-  style="background: linear-gradient(to bottom, #14b8a6, #16a34a, #14b8a6);"
+  class="relative py-20 md:py-32 px-6 bg-radial-light min-h-screen flex flex-col items-center overflow-hidden"
 >
-  <!-- Decorative blobs -->
-  <div class="absolute inset-0 pointer-events-none opacity-10">
-    <div class="absolute top-10 left-1/4 w-80 h-80 bg-yellow-300 rounded-full blur-3xl"></div>
-    <div class="absolute bottom-10 right-10 w-64 h-64 bg-green-300 rounded-full blur-3xl"></div>
-  </div>
+  <!-- Decorative Floating Elements -->
+  <div
+    class="absolute top-20 left-10 w-24 h-24 bg-brand-primary/10 rounded-full blur-3xl floating-element"
+  ></div>
+  <div
+    class="absolute top-1/2 -right-10 w-40 h-40 bg-brand-gold/10 rounded-full blur-[80px] floating-element-delay"
+  ></div>
+  <div
+    class="absolute bottom-20 left-1/4 w-16 h-16 bg-brand-primary/20 rounded-full blur-2xl floating-element"
+  ></div>
 
-  <!-- Section title -->
-  <div class="relative z-10 text-center mb-7 sm:mb-12">
-    <p class="text-yellow-300 font-semibold tracking-widest text-xs sm:text-sm uppercase mb-1.5 sm:mb-2">
-      Perjalanan Sacha Inchi
-    </p>
-    <h2 class="text-2xl sm:text-4xl md:text-5xl font-black text-white drop-shadow-lg">
-      Dari <span class="text-yellow-200">Lahan</span> ke <span class="text-yellow-200">Tangan</span>
-    </h2>
-    <div class="w-16 sm:w-24 h-1 sm:h-1.5 bg-yellow-400 mx-auto rounded-full mt-3 sm:mt-4"></div>
-  </div>
-
-  <!-- Main gallery card -->
-  <div class="relative z-10 max-w-6xl mx-auto" class:fade-in={visible}>
-    <div class="bg-teal-700/60 backdrop-blur-md border border-white/30 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl">
-
-      <!-- Main content row:
-           < md  → stacked (col)
-           ≥ md  → side by side (row)
-      -->
-      <div class="flex flex-col md:flex-row">
-
-        <!-- ══ LEFT: Image ══ -->
-        <div
-          class="relative w-full md:w-[60%] flex-shrink-0 bg-teal-900/40 img-panel"
+  <!-- Header Section -->
+  <div
+    class="relative z-10 max-w-7xl w-full mb-16 md:mb-24"
+    class:fade-in-up={visible}
+  >
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div class="max-w-2xl">
+        <p
+          class="text-[#FFB800] font-bold tracking-[0.3em] text-[10px] uppercase mb-4"
         >
-          <!-- Tag badge -->
-          <div class="absolute top-3 left-3 sm:top-4 sm:left-4 z-20">
+          Perjalanan Sacha Inchi
+        </p>
+        <h2
+          class="text-4xl md:text-7xl font-extrabold text-brand-dark tracking-tight leading-[1.1] uppercase"
+        >
+          Dari <span class="text-[#FFB800]">Lahan</span> ke
+          <span class="text-[#FFB800]">Tangan</span>
+        </h2>
+      </div>
+      <div
+        class="hidden md:block w-32 h-1.5 bg-brand-gold rounded-full mb-4"
+      ></div>
+    </div>
+  </div>
+
+  <!-- Editorial Gallery Layout -->
+  <div
+    class="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center"
+  >
+    <!-- LEFT: Image Container (Rule of Thirds 2/3) -->
+    <div
+      class="lg:col-span-8"
+      class:fade-in-up={visible}
+      style="animation-delay: 0.2s"
+    >
+      <div class="relative group">
+        <!-- Main Image -->
+        <div
+          class="relative aspect-square overflow-hidden rounded-[3rem] shadow-2xl ring-1 ring-black/5 bg-slate-50 flex items-center justify-center p-8"
+        >
+          <!-- Background Blur Effect for aesthetics -->
+          {#key current}
+            <div
+              class="absolute inset-0 bg-cover bg-center blur-2xl opacity-10"
+              style="background-image: url({slide.image})"
+            ></div>
+            <img
+              src={slide.image}
+              alt={slide.title}
+              class="relative z-10 max-w-full max-h-full object-contain img-reveal rounded-2xl"
+            />
+          {/key}
+          <!-- Status Overlay -->
+          <div class="absolute top-8 left-8 z-20">
             <span
-              class="px-2 py-1 sm:px-3 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-bold tracking-widest uppercase text-teal-900 shadow-md"
-              style="background-color: {slide.color}"
+              class="px-6 py-3 rounded-full text-[10px] font-black tracking-widest uppercase bg-brand-dark text-white shadow-xl backdrop-blur-md"
             >
               {slide.tag}
             </span>
           </div>
-
-          {#key current}
-            {#if slide.portrait}
-              <!-- Portrait: contain + blurred bg fill -->
-              <div class="absolute inset-0 flex items-center justify-center img-reveal overflow-hidden">
-                <div
-                  class="absolute inset-0 scale-110"
-                  style="
-                    background-image: url('{slide.image}');
-                    background-size: cover;
-                    background-position: center;
-                    filter: blur(18px);
-                    opacity: 0.35;
-                  "
-                ></div>
-                <div class="absolute inset-0 bg-teal-900/20"></div>
-                <img
-                  src={slide.image}
-                  alt={slide.title}
-                  class="relative z-10 max-h-full w-auto object-contain drop-shadow-2xl"
-                  style="max-width: 100%;"
-                />
-              </div>
-            {:else}
-              <!-- Landscape: cover -->
-              <img
-                src={slide.image}
-                alt={slide.title}
-                class="absolute inset-0 w-full h-full object-cover img-reveal"
-                style="object-position: center center;"
-              />
-            {/if}
-          {/key}
-
-          <!-- Edge blend -->
-          <div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-teal-800/40 pointer-events-none z-10 hidden md:block"></div>
-          <!-- Bottom fade on mobile stack -->
-          <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-teal-800/40 pointer-events-none z-10 md:hidden"></div>
-
-          <!-- Dot indicators -->
-          <div class="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 flex gap-1.5 sm:gap-2 z-20">
+          <!-- Slide Navigation (Dots) -->
+          <div
+            class="absolute bottom-8 left-8 flex items-center gap-3 z-20 bg-white/20 backdrop-blur-md p-3 rounded-full"
+          >
             {#each slides as _, i}
               <button
                 on:click={() => goTo(i)}
-                class="transition-all duration-300 rounded-full border-2 border-white/60 focus:outline-none"
+                class="transition-all duration-300 rounded-full"
                 style="
-                  width: {i === current ? '22px' : '8px'};
+                  width: {i === current ? '32px' : '8px'};
                   height: 8px;
-                  background: {i === current ? slide.color : 'rgba(255,255,255,0.35)'};
+                  background: {i === current
+                  ? '#2E7D32'
+                  : 'rgba(27, 58, 30, 0.3)'};
                 "
                 aria-label="Slide {i + 1}"
               ></button>
             {/each}
           </div>
         </div>
+        <!-- Decorative frame element behind -->
+        <div
+          class="absolute -bottom-6 -right-6 w-full h-full border-2 border-brand-primary/10 rounded-[3rem] -z-10"
+        ></div>
+      </div>
+    </div>
 
-        <!-- ══ RIGHT: Description ══ -->
-        <div class="md:w-[40%] flex flex-col justify-between p-4 sm:p-6 md:p-8 lg:p-10">
-          <div>
-            <!-- Label — truncate on tiny screens -->
-            <p
-              class="text-[10px] sm:text-xs tracking-[0.15em] sm:tracking-[0.2em] uppercase font-semibold mb-2 sm:mb-3 truncate"
-              style="color: {slide.color}"
+    <!-- RIGHT: Content Area (Rule of Thirds 1/3) -->
+    <div
+      class="lg:col-span-4 flex flex-col space-y-8"
+      class:fade-in-up={visible}
+      style="animation-delay: 0.4s"
+    >
+      <div class="space-y-4">
+        <div class="flex items-center gap-4">
+          <span class="text-brand-primary font-bold text-sm tracking-tighter"
+            >{slide.tag}</span
+          >
+          <div class="h-[1px] flex-grow bg-slate-200"></div>
+        </div>
+        <h3
+          class="text-4xl md:text-5xl font-extrabold text-brand-dark leading-tight uppercase"
+        >
+          {@html slide.title.replace(" ", "<br/>")}
+        </h3>
+        <p class="text-brand-dark italic text-2xl font-medium">
+          {slide.subtitle}
+        </p>
+      </div>
+      <div class="w-16 h-1.5 bg-brand-gold rounded-full"></div>
+      <p class="text-slate-600 leading-relaxed text-lg font-normal max-w-lg">
+        {slide.desc}
+      </p>
+
+      <!-- Controls & Progress -->
+      <div class="pt-6 space-y-10">
+        <div class="flex items-center gap-6">
+          <div class="flex gap-2">
+            <button
+              on:click={prev}
+              class="w-14 h-14 rounded-full border border-slate-200 text-brand-dark hover:bg-brand-primary hover:text-white hover:border-brand-primary transition-all duration-300 flex items-center justify-center group shadow-sm bg-white"
+              aria-label="Previous"
             >
-              {slide.label}
-            </p>
-
-            <h3 class="text-lg sm:text-2xl md:text-3xl font-black text-white leading-tight mb-1">
-              {slide.title}
-            </h3>
-            <p class="text-white/50 italic text-xs sm:text-sm mb-3 sm:mb-5">{slide.subtitle}</p>
-
-            <div class="w-10 sm:w-12 h-0.5 sm:h-1 rounded-full mb-3 sm:mb-5" style="background-color: {slide.color}"></div>
-
-            <p class="text-white/80 leading-relaxed text-xs sm:text-sm md:text-base">
-              {slide.desc}
-            </p>
+              <ArrowLeft size={20} />
+            </button>
+            <button
+              on:click={next}
+              class="w-14 h-14 rounded-full border border-slate-200 text-brand-dark hover:bg-brand-primary hover:text-white hover:border-brand-primary transition-all duration-300 flex items-center justify-center group shadow-sm bg-white"
+              aria-label="Next"
+            >
+              <ArrowRight size={20} />
+            </button>
           </div>
+          <button
+            on:click={togglePause}
+            class="flex items-center gap-3 px-8 py-4 rounded-2xl bg-white border border-slate-100 text-brand-dark text-xs font-black tracking-widest uppercase hover:bg-slate-50 transition-all shadow-sm"
+          >
+            {#if paused}
+              <Play size={18} class="fill-current" />
+              <span>Mulai</span>
+            {:else}
+              <Pause size={18} class="fill-current" />
+              <span>Jeda</span>
+            {/if}
+          </button>
+        </div>
 
-          <!-- Nav controls -->
-          <div class="mt-5 sm:mt-8">
-            <!-- Row: prev · next · pause pill -->
-            <div class="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-              <button
-                on:click={() => { prev(); resetTimer(); }}
-                class="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-white/30 text-white hover:border-yellow-300 hover:text-yellow-300 transition-all duration-200 flex items-center justify-center text-base sm:text-xl flex-shrink-0"
-                aria-label="Previous"
-              >‹</button>
-
-              <button
-                on:click={() => { next(); resetTimer(); }}
-                class="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-white/30 text-white hover:border-yellow-300 hover:text-yellow-300 transition-all duration-200 flex items-center justify-center text-base sm:text-xl flex-shrink-0"
-                aria-label="Next"
-              >›</button>
-
-              <!-- Auto toggle — compact on fold -->
-              <button
-                on:click={togglePause}
-                class="ml-auto flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-[10px] sm:text-xs font-bold border-2 transition-all duration-200 focus:outline-none flex-shrink-0"
-                style="
-                  border-color: {paused ? 'rgba(255,255,255,0.25)' : slide.color + 'cc'};
-                  color:        {paused ? 'rgba(255,255,255,0.45)' : slide.color};
-                  background:   {paused ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.18)'};
-                "
-                aria-label="{paused ? 'Mulai' : 'Jeda'} slideshow"
+        <!-- Progress Timeline -->
+        <div class="relative space-y-3">
+          <div
+            class="flex justify-between text-[10px] font-black tracking-widest text-slate-400 uppercase"
+          >
+            {#each slides as s, i}
+              <span class:text-brand-primary={i === current}
+                >{s.label.split("—")[1]?.trim() || s.label}</span
               >
-                {#if paused}
-                  <svg width="9" height="9" viewBox="0 0 12 12" fill="currentColor">
-                    <polygon points="2,1 11,6 2,11"/>
-                  </svg>
-                  <span>Mulai</span>
-                {:else}
-                  <svg width="9" height="9" viewBox="0 0 12 12" fill="currentColor">
-                    <rect x="1" y="1" width="4" height="10" rx="1"/>
-                    <rect x="7" y="1" width="4" height="10" rx="1"/>
-                  </svg>
-                  <span>Jeda</span>
-                {/if}
-              </button>
-            </div>
-
-            <!-- Progress bar -->
-            <div class="w-full h-0.5 sm:h-1 bg-white/20 rounded-full overflow-hidden">
-              {#if !paused}
-                {#key current}
-                  <div
-                    class="h-full rounded-full progress-bar"
-                    style="background-color: {slide.color}; animation-duration: {INTERVAL}ms;"
-                  ></div>
-                {/key}
-              {/if}
-            </div>
+            {/each}
+          </div>
+          <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+            <div
+              class="h-full bg-brand-primary rounded-full"
+              style="width: {progress}%"
+            ></div>
           </div>
         </div>
       </div>
+    </div>
+  </div>
 
-      <!-- ══ Thumbnail strip ══ -->
-      <div class="flex border-t border-white/20 overflow-hidden bg-teal-600/30">
-        {#each slides as s, i}
-          <button
-            on:click={() => goTo(i)}
-            class="flex-1 h-[52px] sm:h-[64px] relative overflow-hidden transition-all duration-300 group focus:outline-none"
+  <!-- Bottom Visual Strip (Thumbnails) -->
+  <div
+    class="max-w-7xl w-full mt-24 md:mt-32"
+    class:fade-in-up={visible}
+    style="animation-delay: 0.6s"
+  >
+    <div class="grid grid-cols-3 gap-6 md:gap-12">
+      {#each slides as s, i}
+        <button
+          on:click={() => goTo(i)}
+          class="group cursor-pointer text-left focus:outline-none"
+        >
+          <div
+            class="aspect-video overflow-hidden rounded-2xl mb-4 transition-all duration-500 shadow-lg {i ===
+            current
+              ? 'ring-4 ring-brand-primary/20'
+              : ''}"
+            class:grayscale={i !== current}
+            class:hover:grayscale-0={i !== current}
           >
             <img
               src={s.image}
-              alt={s.title}
-              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              alt={s.activeLabel}
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
             />
-            <div
-              class="absolute inset-0 transition-all duration-300"
-              style="background: {i === current ? 'rgba(0,0,0,0.05)' : 'rgba(0,0,0,0.5)'};"
-            ></div>
-            {#if i === current}
-              <div class="absolute bottom-0 left-0 right-0 h-[3px]" style="background-color: {s.color}"></div>
-            {/if}
-            <!-- Label hidden on tiniest screens, shown sm+ -->
-            <span class="hidden min-[400px]:block absolute bottom-1 left-1.5 sm:left-2 text-[9px] sm:text-[10px] text-white font-bold tracking-wider uppercase drop-shadow leading-none">
-              {s.label.split('—')[1]?.trim()}
-            </span>
-          </button>
-        {/each}
-      </div>
-
+          </div>
+          <p
+            class="text-[9px] font-black tracking-widest uppercase"
+            class:text-slate-400={i !== current}
+            class:text-brand-primary={i === current}
+          >
+            {s.activeLabel}
+          </p>
+        </button>
+      {/each}
     </div>
   </div>
 </section>
 
 <style>
-  /* ── Image panel height per breakpoint ──
-     Z Fold folded (344px): 240px  — enough to see the image
-     sm (640px):            300px
-     md (768px):            420px  — side-by-side full height
-  */
-  .img-panel {
-    min-height: 240px;
-  }
-  @media (min-width: 475px) {
-    .img-panel { min-height: 280px; }
-  }
-  @media (min-width: 640px) {
-    .img-panel { min-height: 320px; }
-  }
-  @media (min-width: 768px) {
-    /* side-by-side — stretch to fill the row naturally */
-    .img-panel { min-height: 420px; }
+  :global(.bg-radial-light) {
+    background: radial-gradient(circle at top right, #f0fff4 0%, #ffffff 100%);
   }
 
-  /* ── Animations ── */
-  .fade-in {
-    animation: fadeIn 0.9s ease-out both;
+  @keyframes float {
+    0% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-20px) rotate(10deg);
+    }
+    100% {
+      transform: translateY(0px) rotate(0deg);
+    }
   }
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(40px); }
-    to   { opacity: 1; transform: translateY(0); }
+
+  .floating-element {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .floating-element-delay {
+    animation: float 8s ease-in-out infinite;
+    animation-delay: 1s;
   }
 
   .img-reveal {
-    animation: imgReveal 0.65s ease-out both;
+    animation: imgReveal 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
   }
   @keyframes imgReveal {
-    from { opacity: 0; transform: scale(1.04); }
-    to   { opacity: 1; transform: scale(1); }
+    from {
+      opacity: 0;
+      transform: scale(1.1);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
   }
 
-  .progress-bar {
-    width: 0%;
-    animation: fillBar linear forwards;
+  .fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
   }
-  @keyframes fillBar {
-    from { width: 0%; }
-    to   { width: 100%; }
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 </style>
