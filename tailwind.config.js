@@ -25,6 +25,9 @@ export default {
 					primary: '#176a21',
 					secondary: '#266829',
 					tertiary: '#39653f',
+					'on-primary': '#d1ffc8',
+					'on-secondary': '#d1ffc8',
+					'on-tertiary': '#cfffcf',
 					'on-surface': '#283129',
 					'on-surface-variant': '#555e55',
 					'primary-container': '#9df197',
@@ -34,8 +37,11 @@ export default {
 					'tertiary-container': '#cbfecc',
 					'on-tertiary-container': '#38643e',
 					'surface-container': '#e0ebde',
+					'surface-container-high': '#d9e6d7',
 					'surface-container-low': '#e9f4e7',
 					'surface-container-lowest': '#ffffff',
+					'surface-container-highest': '#d3e1d1',
+					'on-surface-variant': '#555e55',
 				}
 			},
 			fontFamily: {
