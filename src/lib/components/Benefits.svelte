@@ -24,7 +24,7 @@
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     const element = document.querySelector("#benefits");
@@ -116,12 +116,16 @@
             class="text-5xl md:text-6xl font-headline font-black text-saccha-primary leading-[1.1] tracking-tighter uppercase"
           >
             Manfaat Produk <br />
-            <span class="text-saccha-secondary">Ki-Mas Organics</span>
+            <span class="text-saccha-secondary">Ki-Mas ?</span>
           </h2>
         </div>
 
-        <p class="text-saccha-on-surface-variant text-lg font-medium leading-relaxed">
-          Temukan kekuatan transformatif dari biji Sacha Inchi premium, diproses secara teliti untuk menjaga senyawa bioaktif alami demi kesejahteraan holistik Anda.
+        <p
+          class="text-saccha-on-surface-variant text-lg font-medium leading-relaxed"
+        >
+          Temukan kekuatan transformatif dari kacang Sacha Inchi, diproses
+          secara teliti untuk menjaga senyawa bioaktif alami demi kesejahteraan
+          holistik Anda.
         </p>
 
         <div class="pt-4">
@@ -186,7 +190,8 @@
             Siap untuk merasakan <br /> vitalitas nyata?
           </h2>
           <p class="text-white/80 text-lg font-medium">
-            Bergabunglah dengan ribuan orang yang telah mengintegrasikan Ki-Mas Sacha Inchi ke dalam ritual kesehatan harian mereka.
+            Bergabunglah dengan pelanggan yang telah mengintegrasikan Ki-Mas
+            Sacha Inchi ke dalam ritual kesehatan harian mereka.
           </p>
         </div>
         <button

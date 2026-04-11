@@ -191,9 +191,9 @@
 				<p
 					class="font-body text-saccha-on-surface-variant text-lg leading-relaxed max-w-2xl mx-auto"
 				>
-					Biji Sacha Inchi kami berasal dari perkebunan pilihan,
+					Kacang Sacha Inchi kami berasal dari perkebunan pilihan,
 					diproses secara alami untuk menjaga kandungan Omega-3, 6,
-					dan 9 yang sangat tinggi guna mendukung kesehatan jantung,
+					dan 9 yang tinggi guna mendukung kesehatan jantung,
 					kecerdasan otak, dan vitalitas tubuh.
 				</p>
 
