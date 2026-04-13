@@ -3,7 +3,7 @@ export async function handleError({ error, event }) {
 	/** @type {any} */
 	const err = error;
 
-    // Pastikan error dicetak ke console browser
+	// Pastikan error dicetak ke console browser
 	console.error(`[Error ID: ${errorId}]`, err);
 
 	return {
