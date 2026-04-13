@@ -116,7 +116,18 @@
             class="text-5xl md:text-6xl font-headline font-black text-saccha-primary leading-[1.1] tracking-tighter uppercase"
           >
             Manfaat Produk <br />
-            <span class="text-saccha-secondary">Ki-Mas ?</span>
+            <span class="inline-flex items-center relative z-10 mt-1">
+              <!-- WADAH LOGO: Ubah 'w-40 md:w-56' di bawah jika jarak renggang ke tanda tanya (?) ingin diperlebar/dipersempit -->
+              <span class="relative inline-block w-40 md:w-56 h-[1em] -ml-2">
+                <!-- UKURAN GAMBAR: Ubah 'scale-[1.3] md:scale-[1.4]' untuk mengatur pembesaran logo secara bebas -->
+                <img
+                  src="/images/ki-mas-logo.png"
+                  alt="Ki-Mas"
+                  class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-20 md:h-28 object-contain object-left scale-[1.1] md:scale-[1.2] origin-left"
+                />
+              </span>
+              <span class="text-saccha-secondary ml-4">?</span>
+            </span>
           </h2>
         </div>
 

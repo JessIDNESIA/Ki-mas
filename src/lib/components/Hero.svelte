@@ -27,11 +27,11 @@
 		<div class="flex flex-col space-y-8" class:fade-in={mounted}>
 			<!-- Brand Identity -->
 			<div>
-				<div class="mb-4">
+				<div class="-mb-6 md:-mb-10 relative z-10 mix-blend-multiply">
 					<img
 						src="/images/ki-mas-logo.png"
 						alt="Ki-Mas"
-						class="w-[200px] md:w-[300px] h-auto logo-shadow floating-logo"
+						class="w-[280px] md:w-[450px] lg:w-[500px] h-auto logo-shadow floating-logo"
 					/>
 				</div>
 				<h2

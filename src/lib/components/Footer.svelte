@@ -387,13 +387,26 @@
 			<!-- Left 1/3: Brand Identity -->
 			<div class="space-y-12">
 				<div>
-					<div
-						class="text-6xl font-black text-saccha-primary tracking-tighter mb-2 font-headline leading-none"
-					>
-						KI-MAS<br />ORGANIC
+					<!-- WADAH LOGO & JARAK: 
+						 - Ubah class '-mb-[...]' (misalnya -mb-4 atau -mb-8) untuk mengatur jarak vertikal.
+						 - Semakin besar angka minusnya (contoh: -mb-10), teks "Indo Marina Superfood" di bawahnya akan semakin tertarik tegak ke atas menempel dengan logo.
+					-->
+					<div class="-mb-6 relative z-10">
+						<!-- UKURAN GAMBAR LOGO & ALIGNMENT KIRI: 
+							 - Ubah 'scale-[1.x]' untuk mengatur besaran fisik logo.
+							 - [BARU] Ubah class '-ml-3 md:-ml-5' (minus margin-left) untuk menggeser logo ke kiri/kanan agar tepian gambar bisa sejajar sempurna dengan teks "Indo" (mengkoreksi ruang kosong dari gambar transparan).
+						-->
+						<img
+							src="/images/ki-mas-logo.png"
+							alt="Ki-Mas Organic"
+							class="h-22 md:h-28 lg:h-36 object-contain object-left scale-[1.10] md:scale-[1.10] origin-left -ml-1 md:-ml-3"
+						/>
 					</div>
+					<!-- JARAK TEKS KE BAWAH:
+						 - Ubah class 'mb-10' pada (margin-bottom) teks di bawah ini menjadi nilai yang lebih kecil (misalnya 'mb-4' atau 'mb-2') untuk menarik section teks "Produsen Kacang Sacha Inchi" naik lebih dekat.
+					-->
 					<p
-						class="text-[10px] font-black tracking-[0.5em] uppercase text-saccha-primary/60 mb-12"
+						class="text-[10px] font-black tracking-[0.5em] uppercase text-saccha-primary/60 mb-4"
 					>
 						Indo Marina Superfood
 					</p>

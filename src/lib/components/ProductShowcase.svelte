@@ -102,7 +102,21 @@
 			<h2
 				class="font-headline text-6xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter leading-[0.8] text-saccha-on-surface"
 			>
-				Produk <br /><span class="text-saccha-primary">Ki-Mas</span>
+				Produk <br />
+				<!-- WADAH LOGO: 'h-[1em]' mengunci jarak baris (line-height) secara natural terhadap teks di atasnya -->
+				<span
+					class="relative inline-block w-48 md:w-96 lg:w-[32rem] h-[2em]"
+				>
+					<!-- UKURAN & POSISI GAMBAR: 
+						 - Ubah 'scale-[1.x]' untuk membesarkan/mengecilkan tampilan fisik logo.
+						 - Ubah '-translate-y-[x%]' (misalnya -translate-y-[65%]) untuk menggeser logo semakin naik agar mendekat ke teks "Produk" jika dirasa terlalu renggang.
+					-->
+					<img
+						src="/images/ki-mas-logo.png"
+						alt="Ki-Mas"
+						class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[69%] w-full h-24 md:h-48 lg:h-64 object-contain scale-[1.2] md:scale-[1.1] origin-center"
+					/>
+				</span>
 			</h2>
 		</header>
 
