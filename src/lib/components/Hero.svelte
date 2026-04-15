@@ -1,169 +1,224 @@
 <script>
 	import { onMount } from "svelte";
+	import { fly, fade } from "svelte/transition";
+	import { Leaf, HeartPulse, ChevronDown, ShoppingBag } from "lucide-svelte";
 
 	let mounted = false;
+	let isZoomActive = false;
 
 	onMount(() => {
 		mounted = true;
 	});
 </script>
 
-<!-- Hero Section -->
-<section
+<!-- Main Hero Section -->
+<main
 	id="home"
-	class="relative min-h-screen flex items-center justify-center px-6 py-12 overflow-hidden bg-radial-light"
+	class="relative min-h-[100svh] w-full flex items-center overflow-hidden bg-black group/hero pt-20"
 >
-	<!-- Decorative Elements -->
+	<!-- Full-bleed Background with Targeted Logic-based Zoom -->
+	<div class="absolute inset-0 z-0 overflow-hidden">
+		<img
+			alt="Sacha Inchi Plant Backdrop"
+			class="w-full h-full object-cover object-left transition-transform duration-[4000ms] {isZoomActive
+				? 'scale-110'
+				: 'scale-100'} origin-left"
+			src="/images/hero.jpg"
+		/>
+
+		<!-- [CONFIG: SIDEBAR WIDTH] Atur lebar sidebar kaca di sini (default: 50%) -->
+		<div class="absolute inset-0 z-10 glass-sidebar"></div>
+    
+    <!-- Cinematic Dark Scrim for Readability -->
+    <div class="absolute inset-0 z-20 bg-black/40"></div>
+	</div>
+
+	<!-- [CONFIG: TRIGGER ZONE WIDTH] Area interaksi zoom (Harus sinkron dengan sisa lebar sidebar) 
+	     Contoh: Jika sidebar 50% (w-1/2), maka trigger zone juga 50% (w-1/2). -->
 	<div
-		class="absolute top-20 left-10 w-12 h-12 bg-brand-primary/20 rounded-full blur-2xl floating-element"
-	></div>
-	<div
-		class="absolute bottom-40 right-1/2 w-24 h-24 bg-brand-primary/10 rounded-full blur-3xl floating-element-delay"
+		class="absolute inset-y-0 right-0 w-1/2 z-40 cursor-crosshair"
+		role="presentation"
+		on:mouseenter={() => (isZoomActive = true)}
+		on:mouseleave={() => (isZoomActive = false)}
 	></div>
 
+	<!-- Atmospheric Light Accents -->
 	<div
-		class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10"
+		class="absolute top-1/2 -left-20 w-80 h-80 bg-saccha-primary/10 rounded-full blur-[100px] z-20"
+	></div>
+
+	<!-- Content Layer (Meticulously Scaled for 100vh) -->
+	<div
+		class="relative z-30 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
 	>
-		<!-- Content Left -->
-		<div class="flex flex-col space-y-8" class:fade-in={mounted}>
-			<!-- Brand Identity -->
-			<div>
-				<div class="-mb-6 md:-mb-10 relative z-10 mix-blend-multiply">
-					<img
-						src="/images/ki-mas-logo.png"
-						alt="Ki-Mas"
-						class="w-[280px] md:w-[450px] lg:w-[500px] h-auto logo-shadow floating-logo"
-					/>
-				</div>
-				<h2
-					class="text-3xl md:text-5xl font-extrabold text-brand-dark leading-tight uppercase tracking-tight"
+		<div class="grid grid-cols-1 md:grid-cols-12 items-center">
+			<!-- Left-aligned Content Area -->
+			{#if mounted}
+				<div
+					class="col-span-1 md:col-span-8 lg:col-span-7 flex flex-col items-start gap-4 md:gap-7"
+					in:fly={{ x: -40, duration: 1000, delay: 200 }}
 				>
-					Sudah Saatnya Ganti Camilan Dengan Makan Sehat Kacang Sacha
-					Inchi
-				</h2>
-			</div>
-
-			<!-- Description -->
-			<p class="text-lg text-slate-600 leading-relaxed max-w-xl">
-				Camilan superfood premium kaya akan <span
-					class="font-bold text-brand-dark border-b-2 border-brand-primary"
-					>Omega 3, 6, dan 9</span
-				>. Temukan kelezatan alami yang mendukung kesehatan jantung dan
-				kecerdasan otak Anda dalam setiap butiran renyah.
-			</p>
-
-			<!-- CTA Buttons -->
-			<div class="flex flex-wrap gap-4 pt-4">
-				<a
-					class="inline-flex items-center justify-center px-8 py-4 bg-brand-primary text-brand-dark font-bold rounded-xl shadow-lg shadow-brand-primary/30 hover:scale-105 transition-transform duration-300"
-					href="#products"
-				>
-					Pesan Sekarang
-					<svg
-						class="h-5 w-5 ml-2"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
+					<!-- [CONFIG: LOGO POSITION & SIZE] Atur jarak (-mb) dan lebar (w-) logo di bawah ini -->
+					<div
+						class="relative mix-blend-screen -ml-4 -mb-10 pt-10 lg:pt-0"
 					>
-						<path
-							d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-						></path>
-					</svg>
-				</a>
-				<a
-					class="inline-flex items-center justify-center px-8 py-4 bg-white border-2 border-slate-100 text-brand-dark font-bold rounded-xl hover:bg-slate-50 transition-colors duration-300 shadow-sm"
-					href="#products"
-				>
-					Lihat Menu
-				</a>
-			</div>
-		</div>
+						<img
+							src="/images/ki-mas-logo.png"
+							alt="Ki-Mas"
+							class="w-[200px] md:w-[280px] lg:w-[320px] h-auto logo-shadow-glow floating-logo-smooth object-contain"
+						/>
+					</div>
+					<!-- [END CONFIG] -->
 
-		<!-- Content Right -->
-		<div
-			class="relative flex justify-center lg:justify-end"
-			class:fade-in={mounted}
-		>
-			<!-- Main Image Container -->
-			<div
-				class="relative z-10 w-full max-w-[600px] aspect-[14/15] overflow-hidden rounded-[40px] shadow-2xl ring-8 ring-white"
-			>
-				<img
-					alt="Sancha Inchi Plant"
-					class="w-full h-full object-cover hover:scale-105 transition-transform duration-700 ease-out"
-					src="https://images.unsplash.com/photo-1596701062351-8c2c14d1fdd0?q=80&w=1470&auto=format&fit=crop"
-				/>
-			</div>
+					<div class="flex flex-col items-start gap-4">
+						<!-- Tactical Eyebrow -->
+						<div
+							class="flex items-center gap-3"
+							in:fade={{ delay: 500 }}
+						>
+							<span class="w-10 h-[2px] bg-[#4ADE80]"></span>
+							<span
+								class="font-label text-[10px] font-black tracking-[0.4em] text-[#4ADE80] uppercase"
+							>
+								Nature's Gold Standard
+							</span>
+						</div>
+
+						<!-- Headline: Balanced for Website Scale -->
+						<h1
+							class="font-headline font-black text-3xl md:text-5xl lg:text-[clamp(2.5rem,4.5vw,4.2rem)] text-white uppercase tracking-tighter leading-[0.9] drop-shadow-2xl"
+							in:fly={{ y: 20, duration: 1000, delay: 700 }}
+						>
+							Sudah Saatnya <br />
+							<span class="text-[#4ADE80]">Ganti Camilan</span>
+							<br />
+							<span
+								class="text-[0.6em] md:text-[0.8em] block mt-1"
+								>Dengan Makan Sehat Kacang Sacha Inchi</span
+							>
+						</h1>
+
+						<!-- Sub-headline: Concise & Impactful -->
+						<p
+							class="font-body text-white/90 text-sm md:text-base max-w-lg leading-relaxed mt-1"
+							in:fade={{ delay: 900 }}
+						>
+							Superfood premium kaya akan
+							<span
+								class="font-black text-[#FBBF24] border-b-2 border-[#FBBF24]/40 drop-shadow-[0_0_10px_rgba(251,191,36,0.2)]"
+								>Omega 3, 6, dan 9</span
+							>. Mendukung vitalitas jantung dan kecerdasan otak
+							Anda secara murni.
+						</p>
+					</div>
+
+					<!-- Strategic CTA Buttons -->
+					<div
+						class="flex flex-wrap gap-5 mt-4"
+						in:fly={{ y: 20, duration: 1000, delay: 1100 }}
+					>
+						<a
+							href="#products"
+							class="group/cta relative px-9 py-5 bg-[#166534] text-white font-headline font-black rounded-full overflow-hidden transition-all duration-500 hover:scale-105 active:scale-95 shadow-[0_15px_40px_rgba(22,101,52,0.3)] flex items-center gap-2 uppercase tracking-widest text-[10px]"
+						>
+							<span class="relative z-10">Pesan Sekarang</span>
+							<ShoppingBag size={20} class="relative z-10" />
+							<div
+								class="absolute inset-0 bg-[#22C55E] translate-y-full group-hover/cta:translate-y-0 transition-transform duration-500"
+							></div>
+						</a>
+						<a
+							href="#benefits"
+							class="px-9 py-5 border-2 border-white/20 text-white font-headline font-black rounded-full backdrop-blur-md hover:bg-white hover:text-saccha-on-surface transition-all duration-300 active:scale-95 uppercase tracking-widest text-[10px]"
+						>
+							Manfaat
+						</a>
+					</div>
+				</div>
+			{/if}
+
+			<!-- Empty space on the right to let the bright image shine -->
+			<div class="hidden md:block md:col-span-4 lg:col-span-5"></div>
 		</div>
 	</div>
-</section>
+
+	<!-- Scroll Indicator: Slim Responsive -->
+	<div
+		class="absolute bottom-8 right-12 z-40 hidden lg:flex flex-col items-center gap-3 transition-opacity duration-1000 opacity-30"
+		class:opacity-0={!mounted}
+	>
+		<p
+			class="text-[9px] font-black text-white tracking-[0.4em] uppercase [writing-mode:vertical-lr] mb-2"
+		>
+			Scroll
+		</p>
+		<div class="w-[1px] h-14 bg-white/20 relative overflow-hidden">
+			<div
+				class="absolute top-0 left-0 w-full h-1/2 bg-white animate-scroll-vertical"
+			></div>
+		</div>
+	</div>
+</main>
 
 <style>
-	/* Background gradient from top right to bottom left */
-	.bg-radial-light {
-		background: radial-gradient(
-			circle at top right,
-			#f0fff4 0%,
-			#ffffff 100%
+	.glass-sidebar {
+		/* [CONFIG: SIDEBAR WIDTH] Atur lebar sidebar di sini (Pastikan sinkron dengan TRIGGER ZONE di atas) */
+		width: 70%;
+		height: 100%;
+		background: rgba(49, 62, 23, 0.7);
+		backdrop-filter: blur(28px);
+		-webkit-backdrop-filter: blur(28px);
+		/* [CONFIG: SHADOW FADE] Atur kehalusan bayangan di sini.
+		   Semakin kecil persentase pertama (misal 60%), semakin panjang/halus memudarnya. */
+		mask-image: linear-gradient(
+			to right,
+			rgba(0, 0, 0, 1) 57%,
+			rgba(0, 0, 0, 0) 100%
+		);
+		-webkit-mask-image: linear-gradient(
+			to right,
+			rgba(0, 0, 0, 1) 57%,
+			rgba(0, 0, 0, 0) 100%
 		);
 	}
 
-	/* Animation for floating leaves */
-	@keyframes float {
+	@keyframes scroll-vertical {
 		0% {
-			transform: translateY(0px) rotate(0deg);
-		}
-		50% {
-			transform: translateY(-20px) rotate(10deg);
+			transform: translateY(-100%);
 		}
 		100% {
-			transform: translateY(0px) rotate(0deg);
+			transform: translateY(200%);
 		}
 	}
 
-	.floating-element {
-		animation: float 6s ease-in-out infinite;
+	.animate-scroll-vertical {
+		animation: scroll-vertical 2s cubic-bezier(0.7, 0, 0.3, 1) infinite;
 	}
 
-	.floating-element-delay {
-		animation: float 8s ease-in-out infinite;
-		animation-delay: 1s;
-	}
-
-	@keyframes bob {
+	@keyframes bob-smooth {
 		0%,
 		100% {
 			transform: translateY(0);
 		}
 		50% {
-			transform: translateY(-15px);
+			transform: translateY(-10px);
 		}
 	}
 
-	.floating-logo {
-		animation: bob 4s ease-in-out infinite;
-		will-change: transform;
+	.floating-logo-smooth {
+		animation: bob-smooth 5s ease-in-out infinite;
 	}
 
-	.logo-shadow {
-		filter: drop-shadow(0 5px 15px rgba(26, 58, 20, 0.15));
+	.logo-shadow-glow {
+		filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.1));
 	}
 
-	.fade-in {
-		animation: fadeIn 1s ease-out forwards;
+	:global(.font-headline) {
+		font-family: "Epilogue", sans-serif;
 	}
 
-	@keyframes fadeIn {
-		from {
-			opacity: 0;
-			transform: translateY(20px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
+	:global(.font-body),
+	:global(.font-label) {
+		font-family: "Manrope", sans-serif;
 	}
 </style>

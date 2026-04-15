@@ -73,163 +73,105 @@
 			image: "/images/partners/hawa-cake.jpg",
 		},
 	];
+	import { reveal } from "$lib/actions/reveal";
 </script>
 
 <section
 	id="products"
-	class="relative py-24 md:py-40 bg-saccha-background overflow-hidden selection:bg-saccha-primary-container selection:text-saccha-on-primary-container"
+	class="section-standard relative bg-white overflow-hidden"
 >
-	<!-- Background Decorative Blobs -->
-	<div
-		class="organic-blob w-[600px] h-[600px] -top-64 -left-32 opacity-20 floating"
-	></div>
-	<div
-		class="organic-blob w-[500px] h-[500px] bottom-0 -right-24 opacity-20"
-		style="animation: float 8s ease-in-out infinite reverse;"
-	></div>
-
-	<div
-		class="max-w-7xl mx-auto px-6 relative z-10"
-		class:opacity-0={!visible}
-		class:animate-slide-up={visible}
-	>
-		<!-- Editorial Header -->
-		<header class="mb-24 text-center space-y-6">
-			<span
-				class="font-headline text-sm font-bold tracking-[0.4em] text-saccha-primary uppercase inline-block"
-				>Nature's Prime Selection</span
-			>
-			<h2
-				class="font-headline text-6xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter leading-[0.8] text-saccha-on-surface"
-			>
-				Produk <br />
-				<!-- WADAH LOGO: 'h-[1em]' mengunci jarak baris (line-height) secara natural terhadap teks di atasnya -->
-				<span
-					class="relative inline-block w-48 md:w-96 lg:w-[32rem] h-[2em]"
-				>
-					<!-- UKURAN & POSISI GAMBAR: 
-						 - Ubah 'scale-[1.x]' untuk membesarkan/mengecilkan tampilan fisik logo.
-						 - Ubah '-translate-y-[x%]' (misalnya -translate-y-[65%]) untuk menggeser logo semakin naik agar mendekat ke teks "Produk" jika dirasa terlalu renggang.
-					-->
-					<img
-						src="/images/ki-mas-logo.png"
-						alt="Ki-Mas"
-						class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[69%] w-full h-24 md:h-48 lg:h-64 object-contain scale-[1.2] md:scale-[1.1] origin-center"
-					/>
-				</span>
-			</h2>
-		</header>
-
-		<!-- Product Showcase Grid (All identical cards) -->
-		<section
-			class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 items-stretch mb-40"
+	{#if visible}
+		<div
+			class="relative z-10"
+			class:animate-slide-up={visible}
 		>
-			{#each products as product}
-				<div class="group h-full">
-					<div
-						class="bg-saccha-surface-container-lowest h-full rounded-2xl p-8 lg:p-10 transition-all duration-500 hover:shadow-[0px_30px_80px_rgba(23,106,33,0.15)] hover:-translate-y-4 flex flex-col relative overflow-hidden border border-saccha-surface-container-high/50"
-					>
-						<!-- Strategic Green Halal Badge -->
-						<div class="absolute top-6 right-6 z-20">
-							<span
-								class="bg-[#008e44] text-white px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase shadow-md flex items-center gap-1"
-							>
-								<svg
-									class="w-2.5 h-2.5"
-									fill="currentColor"
-									viewBox="0 0 24 24"
-								>
-									<path
-										d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
-									/>
-								</svg>
-								Halal Certified
-							</span>
-						</div>
+			<!-- Editorial Header -->
+			<div class="section-header-spacing text-center">
+				<span class="section-eyebrow">Nature's Prime Selection</span>
+				<h2 class="section-title">
+					Produk <span class="text-saccha-gold">Ki-Mas</span>
+				</h2>
+				<div class="w-32 h-1.5 bg-saccha-primary/10 mx-auto mt-4 rounded-full"></div>
+			</div>
 
+			<!-- Product Showcase Grid -->
+			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 items-stretch mb-24">
+				{#each products as product}
+					<div class="group h-full">
 						<div
-							class="relative mb-10 flex-grow flex items-center justify-center"
+							class="bg-saccha-surface-container h-full rounded-[2.5rem] p-5 md:p-6 transition-all duration-500 hover:shadow-xl hover:-translate-y-2 flex flex-col relative overflow-hidden border border-saccha-primary/5"
 						>
-							<div
-								class="absolute inset-0 border-2 border-saccha-primary-container rounded-full scale-110 opacity-15 group-hover:scale-125 transition-transform duration-1000"
-							></div>
-							<img
-								src={product.image}
-								alt={product.name}
-								class="w-full h-auto max-h-[400px] object-contain relative z-10 rounded-2xl drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)] transition-transform duration-700 group-hover:scale-110"
-							/>
-						</div>
+							<!-- Halal Badge -->
+							<div class="absolute top-5 right-5 z-20">
+								<span
+									class="bg-[#008e44] text-white px-3 py-1 rounded-full text-[9px] font-black tracking-widest uppercase shadow-md flex items-center gap-1"
+								>
+									Halal Certified
+								</span>
+							</div>
 
-						<div class="mt-auto">
-							<h3
-								class="font-headline text-3xl font-black uppercase tracking-tighter mb-2 text-saccha-on-surface leading-tight"
-							>
-								{product.name}
-							</h3>
-							<p
-								class="font-body text-xs text-saccha-primary font-bold mb-8 uppercase tracking-widest"
-							>
-								P-IRT: {product.pirt}
-							</p>
-							<a
-								href="https://wa.me/6283846435699"
-								target="_blank"
-								rel="noopener noreferrer"
-								class="block w-full text-center bg-saccha-primary text-white py-5 rounded-full font-headline font-black uppercase tracking-widest text-xs hover:scale-105 transition-all shadow-lg shadow-saccha-primary/30"
-							>
-								Ambil Sekarang
-							</a>
+							<div class="relative mb-8 flex-grow flex items-center justify-center">
+								<img
+									src={product.image}
+									alt={product.name}
+									class="w-full h-auto max-h-[300px] object-contain relative z-10 rounded-2xl drop-shadow-xl transition-transform duration-700 group-hover:scale-105"
+								/>
+							</div>
+
+							<div class="space-y-4">
+								<div>
+									<h3 class="font-headline text-2xl font-black uppercase tracking-tighter text-saccha-primary leading-tight">
+										{product.name}
+									</h3>
+									<p class="font-body text-[10px] text-saccha-gold font-black uppercase tracking-widest mt-1">
+										P-IRT: {product.pirt}
+									</p>
+								</div>
+								
+								<div class="flex flex-wrap gap-2">
+									{#each product.features as feature}
+										<span class="px-3 py-1 bg-white/50 text-saccha-on-surface-variant text-[9px] font-bold uppercase tracking-wider rounded-full border border-saccha-primary/5">
+											{feature}
+										</span>
+									{/each}
+								</div>
+
+								<a
+									href="https://wa.me/6283846435699"
+									target="_blank"
+									rel="noopener noreferrer"
+									class="block w-full text-center bg-saccha-primary text-white py-4 rounded-full font-headline font-black uppercase tracking-widest text-xs hover:bg-saccha-gold transition-all shadow-lg shadow-saccha-primary/20"
+								>
+									Ambil Sekarang
+								</a>
+							</div>
 						</div>
 					</div>
-				</div>
-			{/each}
-		</section>
+				{/each}
+			</div>
 
-		<!-- Nutrition Lab Visualization (Stacked Bars) -->
-		<section class="mb-40 max-w-4xl mx-auto">
-			<div class="text-center space-y-10">
-				<div class="space-y-4">
-					<span
-						class="font-headline text-sm font-bold tracking-[0.3em] text-saccha-primary uppercase"
-						>The Nutrition Lab</span
-					>
-					<h2
-						class="font-headline text-5xl md:text-7xl font-black uppercase tracking-tighter leading-[0.9] text-saccha-on-surface"
-					>
-						Balanced <br />Essential <br /><span
-							class="text-saccha-primary">Fatty Acids</span
-						>
-					</h2>
+			<!-- Nutrition Lab Visualization -->
+			<div class="mb-24 max-w-4xl mx-auto text-center">
+				<div class="section-header-spacing">
+					<span class="section-eyebrow">The Nutrition Lab</span>
+					<h2 class="section-title">Balanced Essential <br/><span class="text-saccha-gold">Fatty Acids</span></h2>
+					<p class="text-saccha-on-surface-variant text-base md:text-lg font-medium leading-relaxed max-w-2xl mx-auto mt-6">
+						Diproses secara alami untuk menjaga kandungan Omega-3, 6, dan 9 yang tinggi guna mendukung kesehatan jantung dan otak.
+					</p>
 				</div>
 
-				<p
-					class="font-body text-saccha-on-surface-variant text-lg leading-relaxed max-w-2xl mx-auto"
-				>
-					Kacang Sacha Inchi kami berasal dari perkebunan pilihan,
-					diproses secara alami untuk menjaga kandungan Omega-3, 6,
-					dan 9 yang tinggi guna mendukung kesehatan jantung,
-					kecerdasan otak, dan vitalitas tubuh.
-				</p>
-
-				<!-- Stacked Layout: 1 col, 3 rows -->
-				<div class="space-y-8 mt-16 max-w-2xl mx-auto text-left">
+				<div class="space-y-6 max-w-2xl mx-auto text-left">
 					{#each omegaData as omega}
-						<div class="group">
-							<div class="flex justify-between items-end mb-4">
-								<span
-									class="font-headline text-xl font-bold uppercase tracking-tight text-saccha-on-surface"
-								>
+						<div class="group" use:reveal={{ delay: 200 }}>
+							<div class="flex justify-between items-end mb-2">
+								<span class="font-headline text-lg font-black uppercase tracking-tight text-saccha-primary">
 									{omega.type}
 								</span>
-								<span
-									class="font-body font-black text-saccha-primary text-2xl"
-								>
+								<span class="font-body font-black text-saccha-gold text-xl">
 									{omega.value}
 								</span>
 							</div>
-							<div
-								class="h-4 w-full bg-saccha-surface-container rounded-full overflow-hidden shadow-inner"
-							>
+							<div class="h-3 w-full bg-saccha-surface-container rounded-full overflow-hidden shadow-inner">
 								<div
 									class="h-full {omega.color} rounded-full transition-all duration-1000 group-hover:brightness-110"
 									style="width: {omega.value}"
@@ -239,60 +181,35 @@
 					{/each}
 				</div>
 			</div>
-		</section>
 
-		<!-- Partner Kami Section (Circular Profile Images) -->
-		<section
-			class="py-24 bg-saccha-surface-container-low rounded-[3rem] px-8 md:px-12 relative overflow-hidden text-center"
-		>
-			<div
-				class="absolute inset-0 organic-blob opacity-20 scale-150 -z-10 bg-saccha-primary-container"
-			></div>
+			<!-- Partner Kami Section -->
+			<div class="py-12 md:py-20 bg-saccha-surface-container-low rounded-[2.5rem] relative overflow-hidden text-center border border-saccha-primary/5">
+				<div class="mb-12">
+					<span class="section-eyebrow">Our Trusted Network</span>
+					<h2 class="font-headline text-3xl md:text-5xl font-black uppercase tracking-tighter mt-2 text-saccha-primary">
+						Partner Kami
+					</h2>
+				</div>
 
-			<div class="mb-16">
-				<span
-					class="font-headline text-xs font-bold tracking-[0.4em] text-saccha-on-surface-variant uppercase"
-					>Our Trusted Network</span
-				>
-				<h2
-					class="font-headline text-4xl md:text-5xl font-black uppercase tracking-tighter mt-4 text-saccha-on-surface"
-				>
-					Partner Kami
-				</h2>
-			</div>
-
-			<div
-				class="flex flex-wrap justify-center items-center gap-8 md:gap-14"
-			>
-				{#each partners as partner}
-					<div class="flex flex-col items-center gap-4 group">
-						<div
-							class="w-32 h-32 md:w-44 md:h-44 bg-white rounded-full flex items-center justify-center shadow-xl hover:shadow-saccha-primary/20 transition-all duration-500 hover:-translate-y-2 overflow-hidden border-4 border-white"
-						>
-							{#if partner.image}
+				<div class="flex flex-wrap justify-center items-center gap-8 md:gap-12">
+					{#each partners as partner}
+						<div class="flex flex-col items-center gap-3 group">
+							<div class="w-24 h-24 md:w-32 md:h-32 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-2 overflow-hidden border-4 border-white grayscale hover:grayscale-0">
 								<img
 									src={partner.image}
 									alt={partner.name}
 									class="w-full h-full object-cover transition-all duration-500 hover:scale-110"
 								/>
-							{:else}
-								<div
-									class="font-headline font-black text-[10px] md:text-xs text-saccha-on-surface/40 uppercase tracking-tighter px-4"
-								>
-									{partner.name}
-								</div>
-							{/if}
+							</div>
+							<span class="text-[9px] font-black tracking-widest uppercase text-saccha-primary/60 group-hover:text-saccha-primary transition-colors">
+								{partner.name}
+							</span>
 						</div>
-						<span
-							class="text-[10px] font-black tracking-widest uppercase text-saccha-on-surface/80 group-hover:text-saccha-primary transition-colors text-center"
-						>
-							{partner.name}
-						</span>
-					</div>
-				{/each}
+					{/each}
+				</div>
 			</div>
-		</section>
-	</div>
+		</div>
+	{/if}
 </section>
 
 <style>

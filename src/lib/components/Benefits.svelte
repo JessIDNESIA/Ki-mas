@@ -12,6 +12,7 @@
     ShoppingBag,
     ArrowRight,
   } from "lucide-svelte";
+  import { fly, fade } from "svelte/transition";
 
   let visible = false;
 
@@ -87,133 +88,81 @@
 
 <section
   id="benefits"
-  class="relative min-h-screen py-24 px-6 md:px-12 bg-saccha-background overflow-hidden font-sans text-saccha-on-surface"
+  class="section-standard relative bg-white overflow-hidden"
 >
-  <!-- Floating Organic Background Shapes -->
-  <div
-    class="absolute top-40 -left-20 w-96 h-96 bg-saccha-primary-container/30 organic-blob blur-3xl -z-10 animate-float"
-  ></div>
-  <div
-    class="absolute bottom-20 -right-20 w-[30rem] h-[30rem] bg-saccha-tertiary-container/30 organic-blob blur-3xl -z-10 animate-float-delayed"
-  ></div>
-
-  <div class="max-w-7xl mx-auto">
-    <!-- Rule of Thirds Layout -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">
-      <!-- LEFT: Title & Intro (1/3 Width) -->
-      <div
-        class="lg:col-span-4 lg:sticky lg:top-32 space-y-8"
-        class:opacity-0={!visible}
-        class:animate-slide-up={visible}
-      >
-        <div class="space-y-4">
-          <span
-            class="inline-block px-4 py-1 rounded-full bg-saccha-secondary-container text-saccha-on-secondary-container text-xs font-bold tracking-widest uppercase"
-          >
-            Pure Vitality
-          </span>
-          <h2
-            class="text-5xl md:text-6xl font-headline font-black text-saccha-primary leading-[1.1] tracking-tighter uppercase"
-          >
-            Manfaat Produk <br />
-            <span class="inline-flex items-center relative z-10 mt-1">
-              <!-- WADAH LOGO: Ubah 'w-40 md:w-56' di bawah jika jarak renggang ke tanda tanya (?) ingin diperlebar/dipersempit -->
-              <span class="relative inline-block w-40 md:w-56 h-[1em] -ml-2">
-                <!-- UKURAN GAMBAR: Ubah 'scale-[1.3] md:scale-[1.4]' untuk mengatur pembesaran logo secara bebas -->
-                <img
-                  src="/images/ki-mas-logo.png"
-                  alt="Ki-Mas"
-                  class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-20 md:h-28 object-contain object-left scale-[1.1] md:scale-[1.2] origin-left"
-                />
-              </span>
-              <span class="text-saccha-secondary ml-4">?</span>
-            </span>
-          </h2>
-        </div>
-
-        <p
-          class="text-saccha-on-surface-variant text-lg font-medium leading-relaxed"
-        >
-          Temukan kekuatan transformatif dari kacang Sacha Inchi, diproses
-          secara teliti untuk menjaga senyawa bioaktif alami demi kesejahteraan
-          holistik Anda.
+  {#if visible}
+    <div in:fly={{ y: 30, duration: 1000 }}>
+      <!-- Section Header -->
+      <div class="section-header-spacing">
+        <span class="section-eyebrow">Pure Vitality</span>
+        <h2 class="section-title">
+          Manfaat Produk <span class="text-saccha-gold">Ki-Mas</span>
+        </h2>
+        <p class="text-saccha-on-surface-variant text-lg font-medium leading-relaxed max-w-2xl mt-4">
+          Temukan kekuatan transformatif dari kacang Sacha Inchi, diproses secara teliti untuk menjaga senyawa bioaktif alami demi kesejahteraan holistik Anda.
         </p>
-
-        <div class="pt-4">
-          <div class="w-24 h-1.5 bg-saccha-primary rounded-full"></div>
-        </div>
       </div>
 
       <!-- RIGHT: Bento Grid (2/3 Width) -->
-      <div class="lg:col-span-8">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {#each benefits as benefit, i}
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+        {#each benefits as benefit, i}
+          <div
+            class="glass-card p-5 md:p-6 rounded-[2rem] border border-saccha-primary/5 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2 group flex flex-col items-start gap-4"
+          >
             <div
-              class="glass-card p-8 rounded-2xl border border-white/40 shadow-sm hover:shadow-xl hover:border-saccha-primary/30 transition-all duration-500 group"
-              class:opacity-0={!visible}
-              class:animate-slide-up={visible}
-              style="animation-delay: {i * 0.1}s"
+              class="w-12 h-12 rounded-2xl bg-saccha-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-500"
             >
-              <div
-                class="w-14 h-14 rounded-full bg-saccha-primary/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500"
-              >
-                <svelte:component
-                  this={benefit.icon}
-                  class="text-saccha-primary"
-                  size={28}
-                />
-              </div>
+              <svelte:component
+                this={benefit.icon}
+                class="text-saccha-primary"
+                size={20}
+              />
+            </div>
+            <div class="space-y-3">
               <h3
-                class="font-headline font-extrabold text-xl text-saccha-on-surface mb-3 uppercase tracking-tight"
+                class="font-headline font-black text-lg text-saccha-primary uppercase tracking-tight"
               >
                 {benefit.title}
               </h3>
-              <p class="text-saccha-on-surface-variant text-sm leading-relaxed">
+              <p class="text-saccha-on-surface-variant text-sm leading-relaxed font-medium">
                 {benefit.desc}
               </p>
             </div>
-          {/each}
-        </div>
+          </div>
+        {/each}
       </div>
-    </div>
 
-    <!-- Aesthetic Call to Action -->
-    <div
-      class="mt-32 p-8 md:p-16 rounded-[2.5rem] bg-saccha-primary text-white overflow-hidden relative group"
-      class:opacity-0={!visible}
-      class:animate-slide-up={visible}
-      style="animation-delay: 0.8s"
-    >
+      <!-- Aesthetic Call to Action -->
       <div
-        class="absolute top-0 right-0 w-80 h-80 bg-white/10 organic-blob -mr-20 -mt-20 blur-2xl group-hover:scale-110 transition-transform duration-700"
-      ></div>
-      <div
-        class="absolute bottom-0 left-0 w-64 h-64 bg-saccha-secondary/20 organic-blob -ml-20 -mb-20 blur-xl"
-      ></div>
-
-      <div
-        class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-12"
+        class="mt-20 p-8 md:p-12 rounded-[2.5rem] bg-saccha-primary text-white overflow-hidden relative group"
       >
-        <div class="max-w-2xl space-y-6">
-          <h2
-            class="text-4xl md:text-5xl font-headline font-black uppercase leading-none tracking-tighter"
-          >
-            Siap untuk merasakan <br /> vitalitas nyata?
-          </h2>
-          <p class="text-white/80 text-lg font-medium">
-            Bergabunglah dengan pelanggan yang telah mengintegrasikan Ki-Mas
-            Sacha Inchi ke dalam ritual kesehatan harian mereka.
-          </p>
-        </div>
-        <button
-          class="flex items-center gap-3 px-10 py-5 bg-white text-saccha-primary font-headline font-black rounded-full hover:bg-saccha-secondary-container hover:scale-105 transition-all duration-300 shadow-2xl active:scale-95 whitespace-nowrap"
+        <div
+          class="absolute top-0 right-0 w-80 h-80 bg-white/10 organic-blob -mr-20 -mt-20 blur-2xl group-hover:scale-110 transition-transform duration-700"
+        ></div>
+        
+        <div
+          class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-12"
         >
-          BELI SEKARANG
-          <ArrowRight size={20} />
-        </button>
+          <div class="max-w-2xl space-y-4">
+            <h2
+              class="text-3xl md:text-5xl font-headline font-black uppercase leading-none tracking-tighter"
+            >
+              Siap untuk merasakan <br /> vitalitas nyata?
+            </h2>
+            <p class="text-white/80 text-lg font-medium">
+              Bergabunglah dengan pelanggan yang telah mengintegrasikan Ki-Mas Sacha Inchi ke dalam ritual kesehatan harian mereka.
+            </p>
+          </div>
+          <button
+            class="flex items-center gap-3 px-10 py-5 bg-white text-saccha-primary font-headline font-black rounded-full hover:bg-saccha-gold hover:text-white transition-all duration-300 shadow-2xl active:scale-95 whitespace-nowrap"
+          >
+            BELI SEKARANG
+            <ArrowRight size={20} />
+          </button>
+        </div>
       </div>
     </div>
-  </div>
+  {/if}
 </section>
 
 <style>

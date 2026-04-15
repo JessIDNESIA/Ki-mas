@@ -1,6 +1,7 @@
 <script>
   import { onMount, onDestroy } from "svelte";
   import { ArrowLeft, ArrowRight, Pause, Play } from "lucide-svelte";
+  import { fly, fade } from "svelte/transition";
 
   const slides = [
     {
@@ -43,7 +44,7 @@
   const INTERVAL = 7000;
 
   let progress = 0;
-  const STEP = 10; // update frequency in ms
+  const STEP = 10;
 
   function next() {
     current = (current + 1) % slides.length;
@@ -54,7 +55,9 @@
     progress = 0;
   }
 
-  /** @param {number} i */
+  /**
+   * @param {number} i
+   */
   function goTo(i) {
     current = i;
     progress = 0;
@@ -85,7 +88,7 @@
         }),
       { threshold: 0.1 },
     );
-    const el = document.querySelector("#gallery-section");
+    const el = document.querySelector("#dari-lahan-ke-tangan");
     if (el) observer.observe(el);
     return () => observer.disconnect();
   });
@@ -99,279 +102,158 @@
 </script>
 
 <section
-  id="gallery-section"
-  class="relative py-20 md:py-32 px-6 bg-radial-light min-h-screen flex flex-col items-center overflow-hidden"
+	id="dari-lahan-ke-tangan"
+	class="section-standard relative bg-saccha-surface-container-low overflow-hidden"
 >
-  <!-- Decorative Floating Elements -->
-  <div
-    class="absolute top-20 left-10 w-24 h-24 bg-brand-primary/10 rounded-full blur-3xl floating-element"
-  ></div>
-  <div
-    class="absolute top-1/2 -right-10 w-40 h-40 bg-brand-gold/10 rounded-full blur-[80px] floating-element-delay"
-  ></div>
-  <div
-    class="absolute bottom-20 left-1/4 w-16 h-16 bg-brand-primary/20 rounded-full blur-2xl floating-element"
-  ></div>
-
-  <!-- Header Section -->
-  <div
-    class="relative z-10 max-w-7xl w-full mb-16 md:mb-24"
-    class:fade-in-up={visible}
-  >
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
-      <div class="max-w-2xl">
-        <p
-          class="text-[#FFB800] font-bold tracking-[0.3em] text-[10px] uppercase mb-4"
-        >
-          Perjalanan Sacha Inchi
-        </p>
-        <h2
-          class="text-4xl md:text-7xl font-extrabold text-brand-dark tracking-tight leading-[1.1] uppercase"
-        >
-          Dari <span class="text-[#FFB800]">Lahan</span> ke
-          <span class="text-[#FFB800]">Tangan</span>
+  {#if visible}
+    <div in:fly={{ y: 30, duration: 1000 }}>
+      <!-- Section Header -->
+      <div class="section-header-spacing text-center">
+        <span class="section-eyebrow">The Journey</span>
+        <h2 class="section-title">
+          Dari Lahan <span class="text-saccha-gold">Ke Tangan</span>
         </h2>
+        <div class="w-32 h-1.5 bg-saccha-primary/10 mx-auto mt-4 rounded-full"></div>
       </div>
-      <div
-        class="hidden md:block w-32 h-1.5 bg-brand-gold rounded-full mb-4"
-      ></div>
-    </div>
-  </div>
 
-  <!-- Editorial Gallery Layout -->
-  <div
-    class="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center"
-  >
-    <!-- LEFT: Image Container (Rule of Thirds 2/3) -->
-    <div
-      class="lg:col-span-8"
-      class:fade-in-up={visible}
-      style="animation-delay: 0.2s"
-    >
-      <div class="relative group">
-        <!-- Main Image -->
-        <div
-          class="relative aspect-square overflow-hidden rounded-[3rem] shadow-2xl ring-1 ring-black/5 bg-slate-50 flex items-center justify-center p-8"
-        >
-          <!-- Background Blur Effect for aesthetics -->
-          {#key current}
-            <div
-              class="absolute inset-0 bg-cover bg-center blur-2xl opacity-10"
-              style="background-image: url({slide.image})"
-            ></div>
-            <img
-              src={slide.image}
-              alt={slide.title}
-              class="relative z-10 max-w-full max-h-full object-contain img-reveal rounded-2xl"
-            />
-          {/key}
-          <!-- Status Overlay -->
-          <div class="absolute top-8 left-8 z-20">
-            <span
-              class="px-6 py-3 rounded-full text-[10px] font-black tracking-widest uppercase bg-brand-dark text-white shadow-xl backdrop-blur-md"
-            >
-              {slide.tag}
-            </span>
-          </div>
-          <!-- Slide Navigation (Dots) -->
-          <div
-            class="absolute bottom-8 left-8 flex items-center gap-3 z-20 bg-white/20 backdrop-blur-md p-3 rounded-full"
-          >
-            {#each slides as _, i}
-              <button
-                on:click={() => goTo(i)}
-                class="transition-all duration-300 rounded-full"
-                style="
-                  width: {i === current ? '32px' : '8px'};
-                  height: 8px;
-                  background: {i === current
-                  ? '#2E7D32'
-                  : 'rgba(27, 58, 30, 0.3)'};
-                "
-                aria-label="Slide {i + 1}"
-              ></button>
-            {/each}
+      <!-- Editorial Gallery Layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
+        <!-- LEFT: Image Container (6/12) -->
+        <div class="lg:col-span-6">
+          <div class="relative group h-full">
+            <div class="relative overflow-hidden rounded-[2.5rem] shadow-2xl border-4 border-white bg-white {current === 0 ? 'h-full min-h-[320px]' : 'aspect-video'}">
+              {#key current}
+                <img
+                  src={slide.image}
+                  alt={slide.title}
+                  class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                  in:fade={{ duration: 800 }}
+                />
+              {/key}
+              
+              <div class="absolute top-6 left-6 z-20">
+                <span class="px-4 py-2 rounded-full text-[10px] font-black tracking-widest uppercase bg-saccha-primary text-white shadow-xl">
+                  {slide.tag}
+                </span>
+              </div>
+
+              <!-- Dot Nav -->
+              <div class="absolute bottom-6 left-6 flex items-center gap-2.5 z-20 bg-black/20 backdrop-blur-md p-2.5 rounded-full border border-white/20">
+                {#each slides as _, i}
+                  <button
+                    on:click={() => goTo(i)}
+                    class="transition-all duration-300 rounded-full"
+                    style="
+                      width: {i === current ? '32px' : '8px'};
+                      height: 8px;
+                      background: {i === current ? '#FDE047' : 'rgba(255, 255, 255, 0.4)'};
+                    "
+                    aria-label="Slide {i + 1}"
+                  ></button>
+                {/each}
+              </div>
+            </div>
           </div>
         </div>
-        <!-- Decorative frame element behind -->
-        <div
-          class="absolute -bottom-6 -right-6 w-full h-full border-2 border-brand-primary/10 rounded-[3rem] -z-10"
-        ></div>
-      </div>
-    </div>
 
-    <!-- RIGHT: Content Area (Rule of Thirds 1/3) -->
-    <div
-      class="lg:col-span-4 flex flex-col space-y-8"
-      class:fade-in-up={visible}
-      style="animation-delay: 0.4s"
-    >
-      <div class="space-y-4">
-        <div class="flex items-center gap-4">
-          <span class="text-brand-primary font-bold text-sm tracking-tighter"
-            >{slide.tag}</span
-          >
-          <div class="h-[1px] flex-grow bg-slate-200"></div>
-        </div>
-        <h3
-          class="text-4xl md:text-5xl font-extrabold text-brand-dark leading-tight uppercase"
-        >
-          {@html slide.title.replace(" ", "<br/>")}
-        </h3>
-        <p class="text-brand-dark italic text-2xl font-medium">
-          {slide.subtitle}
-        </p>
-      </div>
-      <div class="w-16 h-1.5 bg-brand-gold rounded-full"></div>
-      <p class="text-slate-600 leading-relaxed text-lg font-normal max-w-lg">
-        {slide.desc}
-      </p>
+        <!-- RIGHT: Content Area (6/12) -->
+        <div class="lg:col-span-6 flex flex-col gap-6 p-5 md:p-8 rounded-[2.5rem] bg-white border border-saccha-primary/5 shadow-sm">
+          <div class="space-y-3">
+            <div class="flex items-center gap-4">
+              <span class="text-saccha-primary font-black text-[10px] tracking-[0.3em] uppercase">{slide.tag}</span>
+              <div class="h-px flex-grow bg-saccha-primary/10"></div>
+            </div>
+            <h3 class="text-3xl md:text-5xl font-headline font-black text-saccha-primary leading-tight tracking-tighter uppercase">
+              {slide.title}
+            </h3>
+            <p class="text-saccha-gold italic text-xl font-medium tracking-tight">
+              {slide.subtitle}
+            </p>
+          </div>
 
-      <!-- Controls & Progress -->
-      <div class="pt-6 space-y-10">
-        <div class="flex items-center gap-6">
-          <div class="flex gap-2">
-            <button
-              on:click={prev}
-              class="w-14 h-14 rounded-full border border-slate-200 text-brand-dark hover:bg-brand-primary hover:text-white hover:border-brand-primary transition-all duration-300 flex items-center justify-center group shadow-sm bg-white"
-              aria-label="Previous"
-            >
-              <ArrowLeft size={20} />
-            </button>
-            <button
-              on:click={next}
-              class="w-14 h-14 rounded-full border border-slate-200 text-brand-dark hover:bg-brand-primary hover:text-white hover:border-brand-primary transition-all duration-300 flex items-center justify-center group shadow-sm bg-white"
-              aria-label="Next"
-            >
-              <ArrowRight size={20} />
-            </button>
-          </div>
-          <button
-            on:click={togglePause}
-            class="flex items-center gap-3 px-8 py-4 rounded-2xl bg-white border border-slate-100 text-brand-dark text-xs font-black tracking-widest uppercase hover:bg-slate-50 transition-all shadow-sm"
-          >
-            {#if paused}
-              <Play size={18} class="fill-current" />
-              <span>Mulai</span>
-            {:else}
-              <Pause size={18} class="fill-current" />
-              <span>Jeda</span>
-            {/if}
-          </button>
-        </div>
-
-        <!-- Progress Timeline -->
-        <div class="relative space-y-3">
-          <div
-            class="flex justify-between text-[10px] font-black tracking-widest text-slate-400 uppercase"
-          >
-            {#each slides as s, i}
-              <span class:text-brand-primary={i === current}
-                >{s.label.split("—")[1]?.trim() || s.label}</span
-              >
-            {/each}
-          </div>
-          <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
-            <div
-              class="h-full bg-brand-primary rounded-full"
-              style="width: {progress}%"
-            ></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bottom Visual Strip (Thumbnails) -->
-  <div
-    class="max-w-7xl w-full mt-24 md:mt-32"
-    class:fade-in-up={visible}
-    style="animation-delay: 0.6s"
-  >
-    <div class="grid grid-cols-3 gap-6 md:gap-12">
-      {#each slides as s, i}
-        <button
-          on:click={() => goTo(i)}
-          class="group cursor-pointer text-left focus:outline-none"
-        >
-          <div
-            class="aspect-video overflow-hidden rounded-2xl mb-4 transition-all duration-500 shadow-lg {i ===
-            current
-              ? 'ring-4 ring-brand-primary/20'
-              : ''}"
-            class:grayscale={i !== current}
-            class:hover:grayscale-0={i !== current}
-          >
-            <img
-              src={s.image}
-              alt={s.activeLabel}
-              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-            />
-          </div>
-          <p
-            class="text-[9px] font-black tracking-widest uppercase"
-            class:text-slate-400={i !== current}
-            class:text-brand-primary={i === current}
-          >
-            {s.activeLabel}
+          <p class="text-saccha-on-surface-variant leading-relaxed text-sm md:text-base font-medium">
+            {slide.desc}
           </p>
-        </button>
-      {/each}
+
+          <!-- Controls & Progress -->
+          <div class="pt-4 space-y-8">
+            <div class="flex items-center gap-4">
+              <div class="flex gap-2">
+                <button
+                  on:click={prev}
+                  class="w-12 h-12 rounded-full border border-saccha-primary/10 text-saccha-primary hover:bg-saccha-primary hover:text-white transition-all duration-300 flex items-center justify-center shadow-sm active:scale-95"
+                  aria-label="Previous"
+                >
+                  <ArrowLeft size={18} />
+                </button>
+                <button
+                  on:click={next}
+                  class="w-12 h-12 rounded-full border border-saccha-primary/10 text-saccha-primary hover:bg-saccha-primary hover:text-white transition-all duration-300 flex items-center justify-center shadow-sm active:scale-95"
+                  aria-label="Next"
+                >
+                  <ArrowRight size={18} />
+                </button>
+              </div>
+                <button
+                  on:click={togglePause}
+                  class="flex items-center gap-2.5 px-6 py-3.5 rounded-2xl bg-saccha-surface-container border border-saccha-primary/10 text-saccha-primary text-[10px] font-black tracking-widest uppercase hover:bg-white transition-all active:scale-95 shadow-sm"
+                >
+                  {#if paused}
+                    <Play size={18} class="fill-current" />
+                    <span>Mulai</span>
+                  {:else}
+                    <Pause size={18} class="fill-current" />
+                    <span>Jeda</span>
+                  {/if}
+                </button>
+            </div>
+
+            <!-- Progress Timeline -->
+            <div class="space-y-2.5">
+              <div class="flex justify-between text-[9px] font-black tracking-widest text-saccha-primary/30 uppercase">
+                {#each slides as s, i}
+                  <span class:text-saccha-primary={i === current}>
+                    {s.label.split("—")[1]?.trim() || s.label}
+                  </span>
+                {/each}
+              </div>
+              <div class="w-full h-1.5 bg-saccha-surface-container rounded-full overflow-hidden">
+                <div
+                  class="h-full bg-saccha-primary rounded-full"
+                  style="width: {progress}%"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Thumbnails Strip -->
+      <div class="grid grid-cols-3 gap-4 md:gap-8 mt-12">
+        {#each slides as s, i}
+          <button
+            on:click={() => goTo(i)}
+            class="group text-left"
+          >
+            <div
+              class="aspect-video overflow-hidden rounded-[1.5rem] mb-3 transition-all duration-500 shadow-md {i === current ? 'ring-4 ring-saccha-gold' : 'ring-1 ring-saccha-primary/5 grayscale opacity-50'}"
+            >
+              <img
+                src={s.image}
+                alt={s.activeLabel}
+                class="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700"
+              />
+            </div>
+            <p class="text-[9px] font-black tracking-widest uppercase {i === current ? 'text-saccha-primary' : 'text-saccha-primary/40'}">
+              {s.activeLabel}
+            </p>
+          </button>
+        {/each}
+      </div>
     </div>
-  </div>
+  {/if}
 </section>
 
 <style>
-  :global(.bg-radial-light) {
-    background: radial-gradient(circle at top right, #f0fff4 0%, #ffffff 100%);
-  }
-
-  @keyframes float {
-    0% {
-      transform: translateY(0px) rotate(0deg);
-    }
-    50% {
-      transform: translateY(-20px) rotate(10deg);
-    }
-    100% {
-      transform: translateY(0px) rotate(0deg);
-    }
-  }
-
-  .floating-element {
-    animation: float 6s ease-in-out infinite;
-  }
-
-  .floating-element-delay {
-    animation: float 8s ease-in-out infinite;
-    animation-delay: 1s;
-  }
-
-  .img-reveal {
-    animation: imgReveal 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-  }
-  @keyframes imgReveal {
-    from {
-      opacity: 0;
-      transform: scale(1.1);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
-  .fade-in-up {
-    animation: fadeInUp 0.8s ease-out forwards;
-  }
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
+  :global(.font-headline) { font-family: 'Epilogue', sans-serif; }
 </style>

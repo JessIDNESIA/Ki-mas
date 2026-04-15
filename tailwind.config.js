@@ -21,6 +21,10 @@ export default {
 				'sacha-teal': '#14b8a6',
 				'sacha-yellow': '#fde047',
 				saccha: {
+					green: '#4ade80',
+					yellow: '#fde047',
+					gold: '#c5a021',
+					forest: '#166534',
 					background: '#f0f9ed',
 					primary: '#176a21',
 					secondary: '#266829',
