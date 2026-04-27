@@ -1,7 +1,7 @@
 <script>
 	const contactInfo = {
 		phones: ["0838 4643 5699", "0812 3361 6267"],
-		email: "ghozydoang2009@gmail.com",
+		email: "susiyantoeko45@gmail.com",
 		instagram: "kimas.sachainchi",
 		address: {
 			street: "Bandara Erfina Residence Blok A - 15",
@@ -118,7 +118,14 @@
 						</div>
 						<div class="min-w-0">
 							<p class="text-[9px] font-black uppercase tracking-widest text-saccha-primary/40 mb-1">Email Resmi</p>
-							<p class="text-lg font-bold text-saccha-primary truncate font-headline">{contactInfo.email}</p>
+							<a
+								href={`https://mail.google.com/mail/u/0/?tf=cm&fs=1&to=${contactInfo.email}`}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="block text-lg font-bold text-saccha-primary truncate font-headline hover:text-saccha-gold transition-colors"
+							>
+								{contactInfo.email}
+							</a>
 						</div>
 					</div>
 				</div>

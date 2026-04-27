@@ -90,11 +90,11 @@
 							in:fly={{ y: 20, duration: 1000, delay: 700 }}
 						>
 							Sudah Saatnya <br />
-							<span class="text-[#4ADE80]">Ganti Camilan</span>
+							<span class="text-[#4ADE80]">Ganti Camilanmu</span>
 							<br />
 							<span
 								class="text-[0.6em] md:text-[0.8em] block mt-1"
-								>Dengan Makan Sehat Kacang Sacha Inchi</span
+								>Dengan Makanan Sehat Kacang Sacha Inchi</span
 							>
 						</h1>
 

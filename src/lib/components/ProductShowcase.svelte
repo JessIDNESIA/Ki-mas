@@ -3,6 +3,16 @@
 
 	import { onMount } from "svelte";
 
+	const WHATSAPP_NUMBER = "6283846435699";
+
+	/**
+	 * @param {string} productName
+	 */
+	function getWhatsAppUrl(productName) {
+		const message = `Halo, saya tertarik dengan produk ${productName}.`;
+		return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+	}
+
 	onMount(() => {
 		const observer = new IntersectionObserver(
 			(entries) => {
@@ -137,7 +147,7 @@
 								</div>
 
 								<a
-									href="https://wa.me/6283846435699"
+									href={getWhatsAppUrl(product.name)}
 									target="_blank"
 									rel="noopener noreferrer"
 									class="block w-full text-center bg-saccha-primary text-white py-4 rounded-full font-headline font-black uppercase tracking-widest text-xs hover:bg-saccha-gold transition-all shadow-lg shadow-saccha-primary/20"

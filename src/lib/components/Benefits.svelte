@@ -16,6 +16,8 @@
 
   let visible = false;
 
+  const WHATSAPP_NUMBER = "6283846435699";
+
   onMount(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -153,12 +155,15 @@
               Bergabunglah dengan pelanggan yang telah mengintegrasikan Ki-Mas Sacha Inchi ke dalam ritual kesehatan harian mereka.
             </p>
           </div>
-          <button
+          <a
+            href={`https://wa.me/${WHATSAPP_NUMBER}`}
+            target="_blank"
+            rel="noopener noreferrer"
             class="flex items-center gap-3 px-10 py-5 bg-white text-saccha-primary font-headline font-black rounded-full hover:bg-saccha-gold hover:text-white transition-all duration-300 shadow-2xl active:scale-95 whitespace-nowrap"
           >
             BELI SEKARANG
             <ArrowRight size={20} />
-          </button>
+          </a>
         </div>
       </div>
     </div>
