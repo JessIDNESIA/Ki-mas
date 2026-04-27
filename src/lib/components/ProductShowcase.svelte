@@ -262,8 +262,4 @@
 			transform: translateY(0);
 		}
 	}
-
-	:global(html) {
-		scroll-behavior: smooth;
-	}
 </style>
